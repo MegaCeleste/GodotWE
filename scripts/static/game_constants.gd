@@ -32,6 +32,10 @@ enum Layers {
 	Z_FIRE = 29,
 	## Bodies of type [Entity].
 	Z_ENTITIES = 30,
+	## The editor sounds background.
+	Z_SOUNDS_BG = 34,
+	## Sound parts.
+	Z_SOUNDS = 35,
 	## The player's held item, if it is behind the player.
 	Z_BEFORE_PLAYER = 37,
 	## The player.

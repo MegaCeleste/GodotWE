@@ -11,11 +11,16 @@ extends Control
 signal loaded
 signal erase_started
 signal erase_stopped
+signal part_type_changed
 
 enum EraseMode {
 	NONE,
 	TOGGLE_ERASE,
 	QUICK_ERASE,
+}
+enum PartType {
+	OBJECTS,
+	SOUNDS,
 }
 
 ## The level this [Editor] is associated with.
@@ -27,10 +32,13 @@ var hovered_part: Part
 ## Whether the editor is in erase mode and how it has been activated.
 var erasing := EraseMode.NONE:
 	set = _set_erasing
+var part_type := PartType.OBJECTS:
+	set = _set_part_type
 ## The currently displayed touch effect. Used to limit one at a time.
 var touch_effect: AnimatedSprite2D
 ## The editor [Grid].
 var grid := Grid.new()
+var dark_overlay = DarkOverlay.new()
 ## Whether parts can currently be placed and interacted with.
 var part_interact := true
 
@@ -111,6 +119,7 @@ func load() -> void:
 	MusicPlayer.play.call_deferred()
 	
 	level.add_child(grid)
+	level.add_child(dark_overlay)
 	level.playing.connect(_play)
 	level.editing.connect(_edit)
 	
@@ -142,6 +151,7 @@ func _play() -> void:
 	%LeftPanel.status = EditorPanel.Status.HIDDEN
 	%RightPanel.status = EditorPanel.Status.HIDDEN
 	grid.hide()
+	dark_overlay.hide()
 
 
 func _edit() -> void:
@@ -153,6 +163,9 @@ func _edit() -> void:
 	%LeftPanel.status = EditorPanel.Status.OPEN
 	%RightPanel.status = EditorPanel.Status.OPEN
 	grid.show()
+	match part_type:
+		PartType.SOUNDS:
+			dark_overlay.show()
 
 
 func _set_erasing(v: EraseMode) -> void:
@@ -169,3 +182,17 @@ func _set_erasing(v: EraseMode) -> void:
 		Cursor.type = Cursor.Type.ERASER
 		Cursor.down = true
 		erase_started.emit()
+
+
+func _set_part_type(v: PartType) -> void:
+	if v == part_type:
+		return
+	
+	part_type = v
+	match v:
+		PartType.OBJECTS:
+			dark_overlay.hide()
+		PartType.SOUNDS:
+			dark_overlay.show()
+	
+	part_type_changed.emit()
