@@ -273,6 +273,8 @@ func _play() -> void:
 	status = Status.PLAYING
 	%LevelTimer.start(time + 1)
 	hud.show()
+	if editor != null:
+		editor.music_offset = MusicPlayer.get_playback_position()
 	if title_screen:
 		var date = Time.get_datetime_dict_from_system()
 		if date.month == Time.MONTH_DECEMBER:

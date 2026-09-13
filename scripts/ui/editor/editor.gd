@@ -41,6 +41,7 @@ var grid := Grid.new()
 var dark_overlay = DarkOverlay.new()
 ## Whether parts can currently be placed and interacted with.
 var part_interact := true
+var music_offset := 0.0
 
 # The last calculated grid spot the mouse is on.
 var _last_mouse_pos: Vector2i
@@ -156,7 +157,7 @@ func _play() -> void:
 
 func _edit() -> void:
 	MusicPlayer.stream = preload("uid://dq3thvj6cinc0")
-	MusicPlayer.play()
+	MusicPlayer.play(music_offset)
 	
 	part_interact = true
 	%TopPanel.status = EditorPanel.Status.OPEN
