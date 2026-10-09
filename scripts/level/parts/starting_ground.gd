@@ -83,7 +83,6 @@ func build() -> void:
 
 
 func _hold() -> void:
-	push_warning("Starting ground can't be held.")
 	held = false
 
 
