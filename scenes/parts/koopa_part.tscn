@@ -17,3 +17,4 @@ z_index = 30
 [node name="Sprite2D" type="Sprite2D" parent="Graphics" index="0" unique_id=1579236729]
 position = Vector2(0, -8)
 texture = SubResource("AtlasTexture_g4v7s")
+flip_h = true

@@ -47,7 +47,7 @@ func kill() -> void:
 	#grav.gravity = Vector2(0, 10)
 	var graphics = $Graphics.duplicate() as Node2D
 	graphics.global_position = $Graphics.global_position
-	graphics.name = "DeadEntity"
+	graphics.name = "Dead" + name
 	graphics.z_index = GameConstants.Layers.Z_DEAD
 	graphics.z_as_relative = false
 	graphics.set_script(DeadEntity)
@@ -64,7 +64,6 @@ func _ready() -> void:
 	hitbox.body_entered.connect(func(entity): _body_handling(true, entity))
 	hitbox.body_exited.connect(func(entity): _body_handling(false, entity))
 	stomped.connect(_stomped)
-	$SlideComponent.turned.connect(_turned)
 
 
 func _stomped(player: Player) -> void:
@@ -96,13 +95,6 @@ func _spin_stomp() -> void:
 	spin_smoke.global_position = global_position
 	spin_smoke.position.y -= 8
 	queue_free()
-
-
-func _turned(direction: Vector2) -> void:
-	if direction == Vector2.LEFT:
-		$Graphics/Sprite.flip_h = true
-	elif direction == Vector2.RIGHT:
-		$Graphics/Sprite.flip_h = false
 	
 
 func _physics_process(_delta: float) -> void:

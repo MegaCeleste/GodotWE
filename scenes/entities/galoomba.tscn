@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d2p4v7v1baic6"]
 
-[ext_resource type="Script" uid="uid://dyarew67t4sgx" path="res://scripts/level/entities/galoomba.gd" id="1_jtsmq"]
+[ext_resource type="Script" uid="uid://dyarew67t4sgx" path="res://scripts/level/entities/enemies/galoomba.gd" id="1_jtsmq"]
 [ext_resource type="Texture2D" uid="uid://d3s6tog37hohi" path="res://textures/smw/entities/galoomba.png" id="2_jtsmq"]
 [ext_resource type="Script" uid="uid://nhyxn7n2fqbr" path="res://scripts/components/gravity_component.gd" id="4_jq00e"]
 [ext_resource type="Script" uid="uid://sv7f6f65t1eb" path="res://scripts/components/slide_component.gd" id="5_cotiu"]
@@ -52,6 +52,7 @@ shape = SubResource("RectangleShape2D_cotiu")
 position = Vector2(0, -8)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Graphics" unique_id=1186533206]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_hyga4")
 animation = &"walk"
 autoplay = "walk"
@@ -65,3 +66,5 @@ metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
 script = ExtResource("5_cotiu")
 speed = 30.0
 metadata/_custom_type_script = "uid://sv7f6f65t1eb"
+
+[connection signal="turned" from="SlideComponent" to="." method="_turned"]
