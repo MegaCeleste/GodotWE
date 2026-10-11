@@ -37,6 +37,9 @@ var can_be_held := true
 ## for consistency across items, however you are free to create your own unique
 ## behavior if the default does not fit your needs.
 var use_default_behavior := true
+## The physics tick in which this component was ready. Used to prevent immediate
+## pickups when the entity enters the tree.
+var start_tick: int
 
 var _player: Player
 
@@ -46,6 +49,7 @@ func _ready() -> void:
 	#check_area = check_area
 	picked_up.connect(_picked_up)
 	dropped.connect(_dropped)
+	start_tick = Engine.get_physics_frames()
 
 
 ## Returns the [Player] currently holding this item or [code]null[/code] if no
@@ -56,6 +60,8 @@ func get_holder() -> Player:
 
 func _body_entered(body: Node2D) -> void:
 	var player = body as Player
+	if Engine.get_physics_frames() <= start_tick + 1:
+		return
 	if player == null or not can_be_held:
 		return
 	if not Input.is_action_pressed("player_run"):
