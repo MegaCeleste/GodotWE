@@ -204,8 +204,6 @@ func bounce() -> void:
 		state_machine.switch(PlayerJumpingState)
 	sounds.stop()
 	velocity.y = -stomp_bounce_speed
-	# SMM:WE oddity
-	position.y -= 1
 
 
 ## Downgrades the player into a lower-tier powerup.
