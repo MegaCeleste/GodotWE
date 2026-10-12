@@ -57,8 +57,7 @@ func _draw():
 func build() -> void:
 	player = preload("uid://b2cwk2viytb57").instantiate()
 	player.position = position + Vector2(8, 16)
-	player.level = level
-	sub_area.get_foreground().add_child(player)
+	sub_area.add(player)
 
 
 func erase(_silent := false) -> void:

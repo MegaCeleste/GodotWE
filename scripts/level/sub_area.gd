@@ -79,13 +79,14 @@ func unfreeze() -> void:
 	show()
 
 
-## Adds a node to this sub-area's foreground and sets metadata
-## ([code]sub_area[/code] to this sub-area, [code]level[/code] to this
-## sub-area's associated [member level]). Note that this mustn't be used for
-## [Part]s, as they have their own [member parts] container node.
+## Adds a node to this sub-area's foreground. If the node is an [Entity],
+## [member Entity.sub_area] is set to this sub-area and [member Entity.level] is
+## set to this sub-area's associated [member level]. Note that this mustn't be
+## used for [Part]s, as they have their own [member parts] container node.
 func add(node: Node) -> void:
-	node.set_meta(&"sub_area", self)
-	node.set_meta(&"level", level)
+	if node is Entity:
+		node.level = level
+		node.sub_area = self
 	%Foreground.add_child(node)
 
 
