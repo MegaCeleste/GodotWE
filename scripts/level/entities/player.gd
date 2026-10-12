@@ -122,6 +122,8 @@ var just_fell := false
 var previous_position: Vector2
 ## The tween used to move the held item side to side when moving and turning.
 var held_item_tween: Tween
+## The [EditorPlayer] that created this [Player].
+var editor_player: EditorPlayer
 
 var _powerup: Powerup
 var held_item: Entity = null:
@@ -138,6 +140,11 @@ const BIG_HITBOX_SIZE = Rect2(Vector2(0, -13.5), Vector2(12, 27))
 const HELD_ITEM_OFFSET = Vector2(11, -1.5)
 ## The y height at which the player will be killed.
 const VOID_LEVEL = 64
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and editor_player != null:
+		editor_player.global_position = global_position - Vector2(8, 16)
 
 
 func _ready() -> void:

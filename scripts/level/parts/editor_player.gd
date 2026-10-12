@@ -57,6 +57,7 @@ func _draw():
 func build() -> void:
 	player = preload("uid://b2cwk2viytb57").instantiate()
 	player.position = position + Vector2(8, 16)
+	player.editor_player = self
 	sub_area.add(player)
 
 
