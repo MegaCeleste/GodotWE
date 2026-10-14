@@ -23,6 +23,13 @@ metadata/_custom_type_script = "uid://cxkfed5ltcp7y"
 
 [node name="SubArea0" parent="." unique_id=1880988790 instance=ExtResource("2_j0h5q")]
 unique_name_in_owner = true
+level_theme = 0
+night_mode = false
+water_speed = 0
+min_water_height = 1
+max_water_height = 1
+meteorites = false
+autoscroll = 0
 
 [node name="EditorPlayer" parent="SubArea0/Parts" parent_id_path=PackedInt32Array(1880988790, 1999903179) index="0" unique_id=1549879982 instance=ExtResource("3_j0h5q")]
 position = Vector2(56, -48)

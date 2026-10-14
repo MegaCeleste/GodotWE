@@ -31,6 +31,7 @@ animations = [{
 }]
 
 [node name="GreenKoopa" type="CharacterBody2D" unique_id=198990977 node_paths=PackedStringArray("hitbox")]
+z_index = 30
 collision_layer = 2
 script = ExtResource("1_r6o1o")
 hitbox = NodePath("KillArea")
@@ -58,13 +59,13 @@ animation = &"walk"
 autoplay = "walk"
 flip_h = true
 
+[node name="GravityComponent" type="Node" parent="." unique_id=135216624]
+script = ExtResource("4_q8068")
+metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
+
 [node name="SlideComponent" type="Node" parent="." unique_id=1085046204]
 script = ExtResource("3_r8ap5")
 speed = 30.0
 metadata/_custom_type_script = "uid://sv7f6f65t1eb"
-
-[node name="GravityComponent" type="Node" parent="." unique_id=135216624]
-script = ExtResource("4_q8068")
-metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
 
 [connection signal="turned" from="SlideComponent" to="." method="_turned"]

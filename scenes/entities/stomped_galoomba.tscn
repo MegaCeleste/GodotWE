@@ -32,7 +32,6 @@ animations = [{
 
 [node name="StompedGaloomba" type="CharacterBody2D" unique_id=1251917640]
 z_index = 30
-z_as_relative = false
 collision_layer = 2
 script = ExtResource("1_epgry")
 metadata/_custom_type_script = "uid://bjdqtobc8xf0n"
