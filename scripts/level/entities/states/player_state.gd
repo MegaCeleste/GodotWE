@@ -2,6 +2,8 @@ class_name PlayerState
 extends State
 
 var player: Player
+## Tween used to update the position of the held item.
+var held_item_tween: Tween
 
 
 func _init() -> void:
@@ -10,6 +12,7 @@ func _init() -> void:
 
 func start() -> Script:
 	player = node as Player
+	player.item_given.connect(item_given)
 	player.item_dropped.connect(item_dropped)
 	if player.held_item != null:
 		player.held_item.position = Vector2(
@@ -19,6 +22,7 @@ func start() -> Script:
 
 
 func end() -> void:
+	player.item_given.disconnect(item_given)
 	player.item_dropped.disconnect(item_dropped)
 	return
 
@@ -29,8 +33,16 @@ func input(event: InputEvent) -> Script:
 	return
 
 
+## Called when the player is given an item.
+func item_given() -> void:
+	player.held_item.position = Player.HELD_ITEM_OFFSET
+	player.held_item.position.x *= player.direction
+
+
 ## Called when the player drops an item.
 func item_dropped(held_item: Entity) -> void:
+	if held_item_tween != null:
+		held_item_tween.kill()
 	player.sounds.stream = preload("uid://c345xnns7om3m")
 	player.sounds.play()
 	player.spawn_spin_thump(
@@ -86,9 +98,8 @@ func position_held_item(
 	if direction == 0:
 		return
 	if player.direction != direction:
-		prints(direction, player.direction)
-		var tween = player.create_tween()
-		tween.tween_property(player.held_item, "position:x", 0, 0)
-		tween.tween_interval(2/15.0)
-		tween.tween_property(player.held_item, "position:x",
+		held_item_tween = player.create_tween()
+		held_item_tween.tween_property(player.held_item, "position:x", 0, 0)
+		held_item_tween.tween_interval(2/15.0)
+		held_item_tween.tween_property(player.held_item, "position:x",
 				Player.HELD_ITEM_OFFSET.x * direction, 0)

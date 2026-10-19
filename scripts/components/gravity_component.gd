@@ -3,6 +3,9 @@ class_name GravityComponent
 extends Component
 ## Provides customizable gravity.
 
+## Emitted when the body bounces.
+signal bounced
+
 ## The gravity. By default, this is the [code]default_gravity[/code] project
 ## setting multiplied by the [code]default_gravity_vector[/code].
 @export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
@@ -21,6 +24,9 @@ var max_fall_speed := 258.0
 @export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
 var minimum_bounce_velocity := 30
 
+## The body's velocity value last frame, before the gravity was applied.
+var old_velocity: Vector2
+
 
 ## Returns the default gravity value from the project settings as a vector.
 static func default() -> Vector2:
@@ -31,12 +37,19 @@ static func default() -> Vector2:
 
 
 func _physics_process(_delta: float) -> void:
-	# absolute cinema
-	if get_parent() == null:
+	var p = get_parent() as CharacterBody2D
+	if p == null:
 		return
-	get_parent().velocity += gravity
-	if get_parent().velocity.y > max_fall_speed:
-		get_parent().velocity.y = max_fall_speed
-	if get_parent().is_on_floor() and bounce \
-			and get_parent().velocity.y > minimum_bounce_velocity:
-		get_parent().velocity.y = get_parent().velocity.y * -bounce_strength
+	if will_bounce():
+		p.velocity.y = old_velocity.y * -bounce_strength
+		bounced.emit()
+	old_velocity = p.velocity
+	p.velocity += gravity
+	if p.velocity.y > max_fall_speed:
+		p.velocity.y = max_fall_speed
+
+
+## Whether the parent body will bounce, based on the current circumstances.
+func will_bounce() -> bool:
+	return get_parent().is_on_floor() and bounce \
+			and old_velocity.y > minimum_bounce_velocity

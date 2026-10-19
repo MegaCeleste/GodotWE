@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://jd8q8byugviw"]
+
+[ext_resource type="Script" uid="uid://d23r7k4e1hglv" path="res://scripts/level/entities/items/grabbable.gd" id="1_sp67i"]
+[ext_resource type="Script" uid="uid://nhyxn7n2fqbr" path="res://scripts/components/gravity_component.gd" id="2_dql4g"]
+[ext_resource type="Script" uid="uid://bpy2tvh67k4oh" path="res://scripts/components/pickup_component.gd" id="3_ykn2h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(12, 15)
+
+[node name="Grabbable" type="CharacterBody2D" unique_id=1737919929]
+z_index = 30
+collision_layer = 8
+script = ExtResource("1_sp67i")
+metadata/_custom_type_script = "uid://d23r7k4e1hglv"
+
+[node name="CollShape" type="CollisionShape2D" parent="." unique_id=593252066]
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="Graphics" type="Node2D" parent="." unique_id=275462466]
+
+[node name="GravityComponent" type="Node" parent="." unique_id=2087114269]
+unique_name_in_owner = true
+script = ExtResource("2_dql4g")
+gravity = Vector2(0, 9)
+max_fall_speed = 240.0
+bounce = true
+metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
+
+[node name="PickupComponent" type="Node" parent="." unique_id=1643717470]
+unique_name_in_owner = true
+script = ExtResource("3_ykn2h")
+check_rect = Rect2(-6, -15, 12, 15)
+metadata/_custom_type_script = "uid://bpy2tvh67k4oh"
+
+[connection signal="bounced" from="GravityComponent" to="." method="_bounced"]

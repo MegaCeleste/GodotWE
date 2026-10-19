@@ -1,3 +1,4 @@
+@tool
 class_name PickupComponent
 extends Component
 ## Makes an [Entity] holdable by the [Player].
@@ -26,10 +27,11 @@ signal picked_up(player: Player)
 ## released by the player.
 signal dropped(player: Player, release_type: ReleaseType)
 
-## The area used to detect the player for pick-ups. Must have the player
-## collision mask selected.
-@export var check_area: Area2D:
-	set = _set_check_area
+const JUST_THROWN_TIME = 0.25
+
+## The shape for this item. Pickup hitboxes are derived from this rectangle.
+@export var check_rect: Rect2:
+	set = _set_check_rect
 ## Whether the player can hold this item. If this is set to [code]false[/code],
 ## the player will not pick up the item even in the right conditions.
 var can_be_held := true
@@ -40,11 +42,23 @@ var use_default_behavior := true
 ## The physics tick in which this component was ready. Used to prevent immediate
 ## pickups when the entity enters the tree.
 var start_tick: int
+## Whether this item was thrown within the last [constant JUST_THROWN_TIME]
+## seconds. Used for not allowing the player to grab the item when it has just
+## been thrown.
+var just_thrown := false
+## The [PickupComponent.Preview], only available under [method
+## Engine.is_editor_hint].
+var tool_preview: PickupComponent.Preview
 
 var _player: Player
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		tool_preview = PickupComponent.Preview.new()
+		tool_preview.comp = self
+		add_child(tool_preview, false, Node.INTERNAL_MODE_FRONT)
+		return
 	# trigger setter
 	#check_area = check_area
 	picked_up.connect(_picked_up)
@@ -52,10 +66,51 @@ func _ready() -> void:
 	start_tick = Engine.get_physics_frames()
 
 
+func _exit_tree() -> void:
+	if Engine.is_editor_hint():
+		return
+	# make sure the player won't hold a destroyed object
+	if _player != null and _player.held_item == self:
+		_player.drop_item()
+
+
+func _physics_process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+	if just_thrown:
+		return
+	if not Input.is_action_pressed(&"player_run"):
+		return
+	# TODO: consider making a player reference like Level.player
+	var player: Player = Utility.id(&"player")
+	var rect = get_check_rect(player.direction)
+	rect.position = get_parent().to_global(rect.position)
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.collision_mask = 1 << 2
+	query.shape = RectangleShape2D.new()
+	query.shape.size = rect.size
+	query.transform.origin = rect.get_center()
+	var result = get_viewport().world_2d.direct_space_state.intersect_shape(
+			query, 1)
+	if result.size() == 0:
+		return
+	player.give_item(get_parent())
+
+
 ## Returns the [Player] currently holding this item or [code]null[/code] if no
 ## one is holding it. Can be used to check whether this item is being held.
 func get_holder() -> Player:
 	return _player
+
+
+func get_check_rect(direction: int) -> Rect2:
+	var size = Vector2(6, check_rect.size.y - 12)
+	if direction == 1:
+		return Rect2(check_rect.position + Vector2(-6, 8), size).abs()
+	elif direction == -1:
+		return Rect2(check_rect.position + Vector2(check_rect.size.x, 8),
+				size).abs()
+	return Rect2(NAN, NAN, NAN, NAN)
 
 
 func _body_entered(body: Node2D) -> void:
@@ -75,9 +130,11 @@ func _picked_up(player: Player) -> void:
 
 func _dropped(player: Player, release_type: ReleaseType) -> void:
 	_player = null
+	just_thrown = true
+	get_tree().create_timer(JUST_THROWN_TIME).timeout.connect(
+			func no_longer_just_thrown(): just_thrown = false)
 	match release_type:
 		ReleaseType.KICKED:
-			# i am currently just guessing values cause the code is lying to me
 			get_parent().velocity = Vector2(
 				(120 + absf(player.velocity.x)) * player.direction,
 				-90
@@ -89,11 +146,43 @@ func _dropped(player: Player, release_type: ReleaseType) -> void:
 			)
 			if player.velocity.x == 0:
 				get_parent().velocity.x = 0
+		ReleaseType.DROPPED:
+			get_parent().velocity = Vector2(
+				get_parent().velocity.x / 2,
+				0
+			)
+			if player.velocity.x == 0:
+				get_parent().velocity.x = 0.7 * player.direction
 
 
-func _set_check_area(v: Area2D) -> void:
-	if check_area != null:
-		check_area.body_entered.disconnect(_body_entered)
-	if v != null and not v.body_entered.is_connected(_body_entered):
-		v.body_entered.connect(_body_entered)
-	check_area = v
+func _set_check_rect(v: Rect2) -> void:
+	check_rect = v
+	if Engine.is_editor_hint():
+		tool_preview.queue_redraw()
+
+
+## Internal node that draws a preview of this [PickupComponent], only under
+## [method Engine.is_editor_hint].
+class Preview extends Node2D:
+	var comp: PickupComponent
+	
+	
+	func _draw() -> void:
+		draw_rect(comp.check_rect, Color(Color.WHITE, 0.5))
+		draw_rect(comp.check_rect, Color.WHITE, false)
+		text(comp.check_rect, "BODY")
+		
+		var left_rect = comp.get_check_rect(1)
+		draw_rect(left_rect, Color(Color.GREEN, 0.5))
+		draw_rect(left_rect, Color.GREEN, false)
+		text(left_rect, "LEFT")
+		
+		var right_rect = comp.get_check_rect(-1)
+		draw_rect(right_rect, Color(Color.RED, 0.5))
+		draw_rect(right_rect, Color.RED, false)
+		text(right_rect, "RIGHT")
+	
+	
+	func text(r: Rect2, t: String) -> void:
+		draw_string(ThemeDB.fallback_font, r.position + Vector2(0, 1), t,
+				HORIZONTAL_ALIGNMENT_LEFT, r.size.x, 1)
