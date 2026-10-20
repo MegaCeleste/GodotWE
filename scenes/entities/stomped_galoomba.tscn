@@ -33,6 +33,7 @@ script = ExtResource("1_epgry")
 check_rect = Rect2(-6, -15, 12, 15)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Graphics" parent_id_path=PackedInt32Array(275462466) index="0" unique_id=1405496998]
+unique_name_in_owner = true
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_6h7q3")
 animation = &"walk"
@@ -41,6 +42,10 @@ flip_v = true
 
 [node name="StompComponent" type="Node" parent="." index="4" unique_id=776588762]
 script = ExtResource("4_asgye")
+hitbox = Rect2(-6, -15, 12, 15)
 metadata/_custom_type_script = "uid://dv2kb78sowe1m"
 
+[connection signal="dropped" from="PickupComponent" to="." method="_dropped"]
+[connection signal="entered" from="StompComponent" to="." method="_entered"]
 [connection signal="spin_stomped" from="StompComponent" to="StompComponent" method="spin_stomp"]
+[connection signal="stomped" from="StompComponent" to="." method="_entered"]

@@ -44,8 +44,13 @@ var use_default_behavior := true
 var start_tick: int
 ## Whether this item was thrown within the last [constant JUST_THROWN_TIME]
 ## seconds. Used for not allowing the player to grab the item when it has just
-## been thrown.
+## been thrown. In the SMM:WE codebase, this is equivalent to
+## [code]inmune[/code], which prevents pickups and kicks to prevent unwanted
+## behavior. This is why you may find this variable referenced in seemingly
+## unrelated places.
 var just_thrown := false
+## The timer that updates [member just_thrown].
+var just_thrown_timer := Timer.new()
 ## The [PickupComponent.Preview], only available under [method
 ## Engine.is_editor_hint].
 var tool_preview: PickupComponent.Preview
@@ -59,11 +64,14 @@ func _ready() -> void:
 		tool_preview.comp = self
 		add_child(tool_preview, false, Node.INTERNAL_MODE_FRONT)
 		return
-	# trigger setter
-	#check_area = check_area
+	
 	picked_up.connect(_picked_up)
 	dropped.connect(_dropped)
 	start_tick = Engine.get_physics_frames()
+	
+	add_child(just_thrown_timer)
+	just_thrown_timer.one_shot = true
+	just_thrown_timer.timeout.connect(func(): just_thrown = false)
 
 
 func _exit_tree() -> void:
@@ -130,9 +138,10 @@ func _picked_up(player: Player) -> void:
 
 func _dropped(player: Player, release_type: ReleaseType) -> void:
 	_player = null
+	
 	just_thrown = true
-	get_tree().create_timer(JUST_THROWN_TIME).timeout.connect(
-			func no_longer_just_thrown(): just_thrown = false)
+	just_thrown_timer.start(JUST_THROWN_TIME)
+	
 	match release_type:
 		ReleaseType.KICKED:
 			get_parent().velocity = Vector2(

@@ -11,12 +11,24 @@ const RECOIL = preload("uid://e8157k7h45xi")
 @export var hitbox: Rect2
 @export var margin := 5.0
 
+## The [PickupComponent] this body has, if any. Used for skipping stomp
+## detection when the body is held.
+var pickup_comp: PickupComponent
+
+
+func _ready() -> void:
+	pickup_comp = Utility.find_child_by_class(get_parent(), PickupComponent)
+
 
 func _physics_process(_delta: float) -> void:
 	# Godot processes physics space right after all physics process functions
 	# are done, so we wait until right after it gets processed for accurate
 	# timing
 	await get_tree().physics_frame
+	
+	if pickup_comp != null and pickup_comp.get_holder() != null:
+		return
+	
 	var query = PhysicsShapeQueryParameters2D.new()
 	query.collision_mask = 1 << 2
 	query.shape = RectangleShape2D.new()

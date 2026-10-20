@@ -296,10 +296,11 @@ func drop_item() -> Entity:
 
 ## Spawns the spin thump effect at [param position] in global coordinates, at
 ## the player's feet by default.
-func spawn_spin_thump(pos := global_position) -> void:
+func spawn_spin_thump(pos := global_position) -> Particle:
 	var spin_thump = preload("uid://clqrm38rakunb").instantiate()
 	get_parent().add_sibling(spin_thump)
 	spin_thump.global_position = pos
+	return spin_thump
 
 
 ## Used in the state machine to determine whether it can change to another
