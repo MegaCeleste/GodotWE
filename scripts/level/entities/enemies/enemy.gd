@@ -71,7 +71,7 @@ func _stomped(player: Player) -> void:
 		Stompability.STOMPABLE:
 			player.bounce()
 			if player.state_machine.current_state is PlayerJumpingState:
-				player.sounds.stream = preload("uid://c345xnns7om3m")
+				player.sounds.stream = preload("uid://dp6qqkjyxu0cu")
 				player.sounds.play()
 				player.spawn_spin_thump()
 			elif player.state_machine.current_state is PlayerSpinJumpingState:

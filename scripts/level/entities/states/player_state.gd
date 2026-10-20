@@ -43,7 +43,7 @@ func item_given() -> void:
 func item_dropped(held_item: Entity) -> void:
 	if held_item_tween != null:
 		held_item_tween.kill()
-	player.sounds.stream = preload("uid://c345xnns7om3m")
+	player.sounds.stream = preload("uid://dp6qqkjyxu0cu")
 	player.sounds.play()
 	player.spawn_spin_thump(
 			player.global_position.lerp(held_item.global_position, 0.5))
