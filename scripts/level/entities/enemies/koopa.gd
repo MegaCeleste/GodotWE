@@ -1,5 +1,9 @@
 class_name Koopa
-extends Enemy
+extends Entity
+
+
+func _physics_process(_delta: float) -> void:
+	move_and_slide()
 
 
 func _turned(direction: Vector2) -> void:
@@ -7,3 +11,7 @@ func _turned(direction: Vector2) -> void:
 		%Sprite.flip_h = false
 	elif direction == Vector2.LEFT:
 		%Sprite.flip_h = true
+
+
+func _entered(player: Player) -> void:
+	player.damage()

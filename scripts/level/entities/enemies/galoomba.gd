@@ -1,9 +1,12 @@
 class_name Galoomba
-extends Enemy
+extends Entity
 
 
-func _stomped(player: Player) -> void:
-	super(player)
+func _physics_process(_delta: float) -> void:
+	move_and_slide()
+
+
+func _stomped(_player: Player) -> void:
 	if is_queued_for_deletion():
 		return
 	var stomp: StompedGaloomba = preload("uid://x314ug2d52hj").instantiate()
@@ -19,3 +22,7 @@ func _turned(direction: Vector2) -> void:
 		%Sprite.flip_h = false
 	elif direction == Vector2.LEFT:
 		%Sprite.flip_h = true
+
+
+func _entered(player: Player) -> void:
+	player.damage()

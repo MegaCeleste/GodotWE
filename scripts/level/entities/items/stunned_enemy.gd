@@ -2,13 +2,13 @@ class_name StunnedEnemy
 extends Grabbable
 ## A [Grabbable] that an enemy either turns into or releases.
 ## 
-## A [StunnedEnemy] is a [Grabbable] which can interact with other [Enemy]s and
+## A [StunnedEnemy] is a [Grabbable] which can interact with other enemies and
 ## [StunnedEnemy]s. Usually, this type of entity represents some sort of
 ## "stunned" version of an enemy: a [StompedGaloomba], [Shell], etc. It kills
-## [Enemy]s if in motion or held, in the latter case the [StunnedEnemy] will
+## enemies if in motion or held, in the latter case the [StunnedEnemy] will
 ## also die.
 
-## The area to check for [Enemy]s and [StunnedEnemy]s. This should be equal to
+## The area to check for enemies and [StunnedEnemy]s. This should be equal to
 ## to [member PickupComponent.check_rect].
 @export var check_rect: Rect2
 
@@ -30,9 +30,9 @@ func _physics_process(delta: float) -> void:
 	var results = get_viewport().world_2d.direct_space_state.intersect_shape(
 			query, 1)
 	for i in results:
-		var collider = i.collider
-		if collider is Enemy or collider is StunnedEnemy:
-			collider.kill()
+		var body: CollisionObject2D = i.collider
+		if body.has_method(&"kill") and body is not Player:
+			body.kill()
 			if %PickupComponent.get_holder() != null:
 				kill()
 

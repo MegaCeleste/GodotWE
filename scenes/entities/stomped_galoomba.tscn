@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://jd8q8byugviw" path="res://scenes/entities/grabbable.tscn" id="1_1325w"]
 [ext_resource type="Script" uid="uid://bis5sol2yr48j" path="res://scripts/level/entities/stomped_galoomba.gd" id="1_epgry"]
 [ext_resource type="Texture2D" uid="uid://d3s6tog37hohi" path="res://textures/smw/entities/galoomba.png" id="2_chdf6"]
+[ext_resource type="Script" uid="uid://dv2kb78sowe1m" path="res://scripts/components/stomp_component.gd" id="4_asgye"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iw03a"]
 atlas = ExtResource("2_chdf6")
@@ -37,3 +38,9 @@ sprite_frames = SubResource("SpriteFrames_6h7q3")
 animation = &"walk"
 autoplay = "walk"
 flip_v = true
+
+[node name="StompComponent" type="Node" parent="." index="4" unique_id=776588762]
+script = ExtResource("4_asgye")
+metadata/_custom_type_script = "uid://dv2kb78sowe1m"
+
+[connection signal="spin_stomped" from="StompComponent" to="StompComponent" method="spin_stomp"]
