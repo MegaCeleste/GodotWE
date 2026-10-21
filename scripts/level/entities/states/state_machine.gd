@@ -51,7 +51,7 @@ func switch(state_type: Script) -> void:
 func _call_and_switch(method: StringName, ...args: Array) -> void:
 	if current_state == null:
 		return
-	var new_state: Script = Callable(current_state, method).callv(args)
+	var new_state: Script = await Callable(current_state, method).callv(args)
 	if new_state == null or current_state.get_script() == new_state:
 		return
 	

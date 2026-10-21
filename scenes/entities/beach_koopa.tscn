@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://ir1bpm8b850a" path="res://scripts/level/entities/enemies/beach_koopa.gd" id="1_ijvd7"]
 [ext_resource type="Texture2D" uid="uid://kyho34loornq" path="res://textures/smw/entities/green_beach_koopa.png" id="2_86m4p"]
+[ext_resource type="Script" uid="uid://cnsky0lpl5fbm" path="res://scripts/level/entities/states/state_machine.gd" id="3_86m4p"]
 [ext_resource type="Script" uid="uid://nhyxn7n2fqbr" path="res://scripts/components/gravity_component.gd" id="3_hsl33"]
 [ext_resource type="Script" uid="uid://sv7f6f65t1eb" path="res://scripts/components/slide_component.gd" id="4_3sglr"]
+[ext_resource type="Script" uid="uid://y1gll4i8423w" path="res://scripts/level/entities/states/beach_koopa_sliding_state.gd" id="4_alnpi"]
 [ext_resource type="Script" uid="uid://dv2kb78sowe1m" path="res://scripts/components/stomp_component.gd" id="5_uksdc"]
+[ext_resource type="Script" uid="uid://cywm0qeymyqqn" path="res://scripts/level/entities/states/beach_koopa_stopped_state.gd" id="5_vs73s"]
+[ext_resource type="Script" uid="uid://c201expnknlks" path="res://scripts/level/entities/states/beach_koopa_moving_state.gd" id="6_fosvm"]
+[ext_resource type="Script" uid="uid://qdwpahtiesg4" path="res://scripts/level/entities/states/beach_koopa_jumping_state.gd" id="7_8uol5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(14, 14)
@@ -81,6 +86,28 @@ animation = &"sliding"
 autoplay = "sliding"
 speed_scale = 0.0
 flip_h = true
+
+[node name="StateMachine" type="Node" parent="." unique_id=643931806 node_paths=PackedStringArray("current_state")]
+unique_name_in_owner = true
+script = ExtResource("3_86m4p")
+current_state = NodePath("Sliding")
+metadata/_custom_type_script = "uid://cnsky0lpl5fbm"
+
+[node name="Sliding" type="Node" parent="StateMachine" unique_id=233163401]
+script = ExtResource("4_alnpi")
+metadata/_custom_type_script = "uid://y1gll4i8423w"
+
+[node name="Stopped" type="Node" parent="StateMachine" unique_id=1588133645]
+script = ExtResource("5_vs73s")
+metadata/_custom_type_script = "uid://cywm0qeymyqqn"
+
+[node name="Moving" type="Node" parent="StateMachine" unique_id=1747789325]
+script = ExtResource("6_fosvm")
+metadata/_custom_type_script = "uid://c201expnknlks"
+
+[node name="Jumping" type="Node" parent="StateMachine" unique_id=718638163]
+script = ExtResource("7_8uol5")
+metadata/_custom_type_script = "uid://qdwpahtiesg4"
 
 [node name="GravityComponent" type="Node" parent="." unique_id=776137260]
 script = ExtResource("3_hsl33")
