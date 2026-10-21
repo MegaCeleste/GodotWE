@@ -1,6 +1,8 @@
 class_name StompedGaloomba
 extends StunnedEnemy
 
+const KICK = preload("uid://dp6qqkjyxu0cu")
+
 
 func _entered(player: Player) -> void:
 	var p = %PickupComponent
@@ -15,6 +17,9 @@ func _entered(player: Player) -> void:
 	var direction = -1 if %Sprite.flip_h else 1
 	velocity.x = (absf(player.velocity.x) + 60) * direction
 	velocity.y = -30
+	
+	player.sounds.stream = KICK
+	player.sounds.play()
 	
 	p.just_thrown = true
 	p.just_thrown_timer.start(PickupComponent.JUST_THROWN_TIME)
