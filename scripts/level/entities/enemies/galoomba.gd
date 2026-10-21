@@ -2,8 +2,19 @@ class_name Galoomba
 extends Entity
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	super(delta)
 	move_and_slide()
+
+
+func block_hit() -> void:
+	var stomp: StompedGaloomba = preload("uid://x314ug2d52hj").instantiate()
+	stomp.global_position = global_position
+	stomp.level = level
+	stomp.sub_area = sub_area
+	add_sibling.call_deferred(stomp)
+	stomp.velocity.y = -180
+	queue_free()
 
 
 func _stomped(_player: Player) -> void:
