@@ -45,7 +45,17 @@ script = ExtResource("4_asgye")
 hitbox = Rect2(-6, -15, 12, 15)
 metadata/_custom_type_script = "uid://dv2kb78sowe1m"
 
+[node name="RespawnTimer" type="Timer" parent="." index="5" unique_id=1978483782]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ShakeTimer" type="Timer" parent="." index="6" unique_id=2048318603]
+unique_name_in_owner = true
+one_shot = true
+
 [connection signal="dropped" from="PickupComponent" to="." method="_dropped"]
 [connection signal="entered" from="StompComponent" to="." method="_entered"]
 [connection signal="spin_stomped" from="StompComponent" to="StompComponent" method="spin_stomp"]
 [connection signal="stomped" from="StompComponent" to="." method="_entered"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_respawn_timeout"]
+[connection signal="timeout" from="ShakeTimer" to="." method="_shake_timeout"]

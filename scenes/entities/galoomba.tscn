@@ -55,6 +55,7 @@ script = ExtResource("4_jq00e")
 metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
 
 [node name="SlideComponent" type="Node" parent="." unique_id=385253733]
+unique_name_in_owner = true
 script = ExtResource("5_cotiu")
 speed = 30.0
 metadata/_custom_type_script = "uid://sv7f6f65t1eb"
