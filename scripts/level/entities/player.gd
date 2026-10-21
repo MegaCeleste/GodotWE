@@ -291,7 +291,7 @@ func give_item(item: Entity) -> void:
 func drop_item() -> Entity:
 	var item = held_item
 	held_item = null
-	return item
+	return item if is_instance_valid(item) else null
 
 
 ## Spawns the spin thump effect at [param position] in global coordinates, at
