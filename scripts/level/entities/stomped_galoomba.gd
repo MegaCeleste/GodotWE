@@ -13,6 +13,10 @@ func _ready() -> void:
 	%ShakeTimer.start(SHAKE_TIME)
 
 
+func block_hit() -> void:
+	velocity.y = -60
+
+
 func _entered(player: Player) -> void:
 	var p = %PickupComponent
 	if p.just_thrown:
