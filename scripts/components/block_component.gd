@@ -30,6 +30,7 @@ signal sprout_end(eject_direction: Vector2, activator: PhysicsBody2D, empty: boo
 @export var enabled := true
 
 var _old_z: int
+var _hit_frame: int
 
 
 ## Animates the given [param spr] with the starting sprout animation.
@@ -58,10 +59,12 @@ func _enter_tree() -> void:
 	assert(get_parent() is CharacterBodyExt or get_parent() is StaticBodyExt,
 			"Node with BlockComponent must be a BodyExt")
 	get_parent().just_collided.connect(_just_collided)
+	get_parent().collided.connect(_collided, CONNECT_DEFERRED)
 
 
 func _exit_tree() -> void:
 	get_parent().just_collided.disconnect(_just_collided)
+	get_parent().collided.disconnect(_collided)
 
 
 func _set_sprout(v: Sprout) -> void:
@@ -83,6 +86,19 @@ func _just_collided(data: KinematicCollisionExt):
 		sprout_start.emit(data.get_normal(), entity)
 		animate_sprout_start(sprite).finished.connect(
 				_finish_sprout.bind(data.get_normal(), Vector2.UP, entity))
+		_hit_frame = get_tree().get_frame()
+
+
+func _collided(data: KinematicCollisionExt) -> void:
+	if not enabled or get_tree().get_frame() != _hit_frame:
+		return
+	if data.get_normal().y != -1:
+		return
+	if data.local.has_method(&"block_hit"):
+		data.local.block_hit()
+	elif data.local.has_method(&"kill"):
+		data.local.kill()
+
 
 
 func _finish_sprout(
