@@ -50,6 +50,7 @@ func _stomped(player: Player) -> void:
 	velocity.x = 0
 	moving = false
 	%PickupComponent.can_be_held = true
+	%Sprite.play(&"idle")
 	
 	%PickupComponent.just_thrown = true
 	%PickupComponent.just_thrown_timer.start()
@@ -81,6 +82,7 @@ func start_moving(player: Player) -> void:
 	%PickupComponent.can_be_held = false
 	%PickupComponent.just_thrown = true
 	%PickupComponent.just_thrown_timer.start()
+	%Sprite.play(&"moving")
 
 
 func _dropped(player: Player, release_type: PickupComponent.ReleaseType) -> void:
