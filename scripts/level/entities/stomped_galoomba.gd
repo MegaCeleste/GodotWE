@@ -54,11 +54,7 @@ func _respawn_timeout() -> void:
 
 func _shake_timeout() -> void:
 	if %PickupComponent.get_holder() == null:
-		shake_tween = create_tween()
-		shake_tween.set_loops()
-		shake_tween.tween_property(%Sprite, ^"position:x", 1, 0.025)
-		shake_tween.tween_property(%Sprite, ^"position:x", -1, 0.05)
-		shake_tween.tween_property(%Sprite, ^"position:x", 0, 0.025)
+		shake_tween = Utility.shake(%Graphics)
 	else:
 		if shake_tween != null and shake_tween.is_valid():
 			shake_tween.kill()

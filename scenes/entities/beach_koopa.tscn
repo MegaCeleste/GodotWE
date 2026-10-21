@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://cefvya51l3c0q"]
+
+[ext_resource type="Script" uid="uid://ir1bpm8b850a" path="res://scripts/level/entities/enemies/beach_koopa.gd" id="1_ijvd7"]
+[ext_resource type="Texture2D" uid="uid://kyho34loornq" path="res://textures/smw/entities/green_beach_koopa.png" id="2_86m4p"]
+[ext_resource type="Script" uid="uid://nhyxn7n2fqbr" path="res://scripts/components/gravity_component.gd" id="3_hsl33"]
+[ext_resource type="Script" uid="uid://sv7f6f65t1eb" path="res://scripts/components/slide_component.gd" id="4_3sglr"]
+[ext_resource type="Script" uid="uid://dv2kb78sowe1m" path="res://scripts/components/stomp_component.gd" id="5_uksdc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijvd7"]
+atlas = ExtResource("2_86m4p")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86m4p"]
+atlas = ExtResource("2_86m4p")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsl33"]
+atlas = ExtResource("2_86m4p")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alnpi"]
+atlas = ExtResource("2_86m4p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs73s"]
+atlas = ExtResource("2_86m4p")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijvd7")
+}],
+"loop": 0,
+"name": &"dead",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86m4p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsl33")
+}],
+"loop": 1,
+"name": &"moving",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alnpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs73s")
+}],
+"loop": 1,
+"name": &"sliding",
+"speed": 9.0
+}]
+
+[node name="BeachKoopa" type="CharacterBody2D" unique_id=473428530]
+collision_layer = 2
+script = ExtResource("1_ijvd7")
+
+[node name="CollShape" type="CollisionShape2D" parent="." unique_id=714489169]
+unique_name_in_owner = true
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="Graphics" type="Node2D" parent="." unique_id=146962980]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Graphics" unique_id=472651179]
+unique_name_in_owner = true
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"sliding"
+autoplay = "sliding"
+speed_scale = 0.0
+flip_h = true
+
+[node name="GravityComponent" type="Node" parent="." unique_id=776137260]
+script = ExtResource("3_hsl33")
+gravity = Vector2(0, 12)
+max_fall_speed = 240.0
+metadata/_custom_type_script = "uid://nhyxn7n2fqbr"
+
+[node name="SlideComponent" type="Node" parent="." unique_id=772416546]
+unique_name_in_owner = true
+process_mode = 4
+script = ExtResource("4_3sglr")
+speed = 30.0
+metadata/_custom_type_script = "uid://sv7f6f65t1eb"
+
+[node name="StompComponent" type="Node" parent="." unique_id=945849311]
+script = ExtResource("5_uksdc")
+hitbox = Rect2(-7, -14, 14, 14)
+metadata/_custom_type_script = "uid://dv2kb78sowe1m"
+
+[connection signal="turned" from="SlideComponent" to="." method="_turned"]
+[connection signal="entered" from="StompComponent" to="." method="_entered"]
+[connection signal="spin_stomped" from="StompComponent" to="StompComponent" method="spin_stomp"]
+[connection signal="stomped" from="StompComponent" to="." method="_stomped"]
+[connection signal="stomped" from="StompComponent" to="StompComponent" method="stomp"]

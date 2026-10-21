@@ -15,14 +15,13 @@ var speed := 60.0
 ## The current direction as a speed multiplier. [code]-1[/code] is left,
 ## [code]1[/code] is right.
 var direction := -1
-
-var _started := false
+var started := false
 
 
 func _physics_process(_delta: float) -> void:
 	if get_parent().is_on_floor():
-		_started = true
-	if _started:
+		started = true
+	if started:
 		if get_parent().is_on_wall():
 			direction *= -1
 			if direction == 1:

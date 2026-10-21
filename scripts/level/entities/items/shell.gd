@@ -7,7 +7,8 @@ const BUMP = preload("uid://7ec5u6l30bgt")
 
 var max_speed: float
 var speed: float
-var moving := false
+var moving := false:
+	set = _set_moving
 var direction: int
 
 
@@ -29,6 +30,25 @@ func _physics_process(delta: float) -> void:
 		if speed < max_speed:
 			speed = move_toward(speed, max_speed, 3)
 		velocity.x = speed * direction
+	elif is_on_floor():
+		velocity.x = 0
+
+
+func stomp(player: Player) -> void:
+	if not moving or %PickupComponent.just_thrown:
+		return
+	player.bounce()
+	player.spawn_spin_thump()
+	%Sounds.stream = KICK2
+	%Sounds.play()
+	moving = false
+
+
+func start_moving(player: Player) -> void:
+	direction = 1 if global_position.x > player.global_position.x else -1
+	speed = (120 + absf(player.velocity.x / 2))
+	max_speed = speed + (30 if player.velocity.x == 0 else 12)
+	moving = true
 
 
 func kill() -> void:
@@ -38,22 +58,6 @@ func kill() -> void:
 func _entered(player: Player) -> void:
 	if moving and not %PickupComponent.just_thrown:
 		player.damage()
-
-
-func _stomped(player: Player) -> void:
-	if not moving or %PickupComponent.just_thrown:
-		return
-	player.bounce()
-	player.spawn_spin_thump()
-	%Sounds.stream = KICK2
-	%Sounds.play()
-	velocity.x = 0
-	moving = false
-	%PickupComponent.can_be_held = true
-	%Sprite.play(&"idle")
-	
-	%PickupComponent.just_thrown = true
-	%PickupComponent.just_thrown_timer.start()
 
 
 func _body_entered(body: Node2D) -> void:
@@ -74,18 +78,16 @@ func _body_entered(body: Node2D) -> void:
 			kill()
 
 
-func start_moving(player: Player) -> void:
-	moving = true
-	direction = 1 if global_position.x > player.global_position.x else -1
-	speed = (120 + absf(player.velocity.x / 2))
-	max_speed = speed + (30 if player.velocity.x == 0 else 12)
-	%PickupComponent.can_be_held = false
-	%PickupComponent.just_thrown = true
-	%PickupComponent.just_thrown_timer.start()
-	%Sprite.play(&"moving")
-
-
 func _dropped(player: Player, release_type: PickupComponent.ReleaseType) -> void:
 	if release_type == PickupComponent.ReleaseType.KICKED:
 		velocity = Vector2.ZERO
 		start_moving(player)
+
+
+func _set_moving(v: bool) -> void:
+	%PickupComponent.can_be_held = not v
+	%PickupComponent.just_thrown = true
+	%PickupComponent.just_thrown_timer.start()
+	if not v:
+		velocity.x = 0
+	moving = v
