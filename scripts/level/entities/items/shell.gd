@@ -17,6 +17,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if %PickupComponent.get_holder() != null:
+		return
 	move_and_slide()
 	super(delta)
 	if moving:
@@ -47,6 +49,7 @@ func _stomped(player: Player) -> void:
 	%Sounds.play()
 	velocity.x = 0
 	moving = false
+	%PickupComponent.can_be_held = true
 	
 	%PickupComponent.just_thrown = true
 	%PickupComponent.just_thrown_timer.start()
@@ -54,22 +57,33 @@ func _stomped(player: Player) -> void:
 
 func _body_entered(body: Node2D) -> void:
 	if body is Player:
+		if %PickupComponent.get_holder() == body:
+			return
 		if %PickupComponent.just_thrown or moving:
 			return
 		%Sounds.stream = KICK1
 		%Sounds.play()
 		body.sprite.speed_scale = 1
 		body.sprite.play(&"kick")
-		
-		moving = true
-		direction = 1 if global_position.x > body.global_position.x else -1
-		speed = (120 + absf(body.velocity.x / 2))
-		max_speed = speed + (30 if body.velocity.x == 0 else 12)
-		
-		%PickupComponent.just_thrown = true
-		%PickupComponent.just_thrown_timer.start()
+		start_moving(body)
 		
 	elif moving and body is Entity and body.has_method(&"kill"):
 		body.kill()
-		if body is Shell:
+		if body is Shell or %PickupComponent.get_holder() != null:
 			kill()
+
+
+func start_moving(player: Player) -> void:
+	moving = true
+	direction = 1 if global_position.x > player.global_position.x else -1
+	speed = (120 + absf(player.velocity.x / 2))
+	max_speed = speed + (30 if player.velocity.x == 0 else 12)
+	%PickupComponent.can_be_held = false
+	%PickupComponent.just_thrown = true
+	%PickupComponent.just_thrown_timer.start()
+
+
+func _dropped(player: Player, release_type: PickupComponent.ReleaseType) -> void:
+	if release_type == PickupComponent.ReleaseType.KICKED:
+		velocity = Vector2.ZERO
+		start_moving(player)
