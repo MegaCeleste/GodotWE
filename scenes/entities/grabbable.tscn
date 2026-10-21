@@ -7,11 +7,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(12, 15)
 
-[node name="Grabbable" type="CharacterBody2D" unique_id=1737919929]
+[node name="Grabbable" type="CharacterBody2D" unique_id=177388701]
 z_index = 30
 collision_layer = 8
 script = ExtResource("1_sp67i")
-metadata/_custom_type_script = "uid://d23r7k4e1hglv"
 
 [node name="CollShape" type="CollisionShape2D" parent="." unique_id=593252066]
 position = Vector2(0, -7.5)

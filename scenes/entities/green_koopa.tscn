@@ -68,4 +68,5 @@ metadata/_custom_type_script = "uid://dv2kb78sowe1m"
 [connection signal="turned" from="SlideComponent" to="." method="_turned"]
 [connection signal="entered" from="StompComponent" to="." method="_entered"]
 [connection signal="spin_stomped" from="StompComponent" to="StompComponent" method="spin_stomp"]
+[connection signal="stomped" from="StompComponent" to="." method="_stomped"]
 [connection signal="stomped" from="StompComponent" to="StompComponent" method="stomp"]

@@ -17,6 +17,10 @@ func block_hit() -> void:
 	queue_free()
 
 
+func kill() -> void:
+	queue_free()
+
+
 func _stomped(_player: Player) -> void:
 	if is_queued_for_deletion():
 		return
