@@ -71,10 +71,10 @@ func _set_sprout(v: Sprout) -> void:
 	v.body = get_parent()
 
 
-func _just_collided(data: KinematicCollision2D):
+func _just_collided(data: KinematicCollisionExt):
 	if not enabled:
 		return
-	var entity = data.get_local_shape().get_parent() as PhysicsBody2D
+	var entity = data.local
 	if entity is Player and data.get_normal().y == 1:
 		if sprout != null and not sprout.empty:
 			sprout.start_sprout(_get_sprout_pos(Vector2.UP), Vector2.UP)

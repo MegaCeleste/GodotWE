@@ -8,9 +8,9 @@ extends StaticBody2D
 ## Fired when a collision occurs. Can be fired back-to-back for equal
 ## collisions.
 @warning_ignore("unused_signal")
-signal collided(collision: KinematicCollision2D)
+signal collided(collision: KinematicCollisionExt)
 
 ## Fired when a collision occurs. Does not fire on back-to-back equal
 ## collisions.
 @warning_ignore("unused_signal")
-signal just_collided(collision: KinematicCollision2D)
+signal just_collided(collision: KinematicCollisionExt)

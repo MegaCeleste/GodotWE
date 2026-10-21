@@ -4,11 +4,11 @@ extends CharacterBody2D
 
 ## Fired when a collision occurs. Can be fired back-to-back for equal
 ## collisions.
-signal collided(collision: KinematicCollision2D)
+signal collided(collision: KinematicCollisionExt)
 
 ## Fired when a collision occurs. Does not fire on back-to-back equal
 ## collisions.
-signal just_collided(collision: KinematicCollision2D)
+signal just_collided(collision: KinematicCollisionExt)
 
 ## Array of all bodies this body has collided within the last [method
 ## move_and_slide] call.
@@ -27,6 +27,8 @@ func _physics_process(_delta: float) -> void:
 		# already collided
 		if collider in last_collided:
 			if collider in collisions:
+				collisions[collider].set_script(KinematicCollisionExt)
+				collisions[collider].local = self
 				collided.emit(collisions[collider])
 				if collider is StaticBodyExt:
 					collider.collided.emit(collisions[collider])
@@ -34,6 +36,8 @@ func _physics_process(_delta: float) -> void:
 				last_collided.erase(collider)
 		# just collided
 		elif collider in collisions:
+			collisions[collider].set_script(KinematicCollisionExt)
+			collisions[collider].local = self
 			last_collided.append(collider)
 			just_collided.emit(collisions[collider])
 			collided.emit(collisions[collider])
