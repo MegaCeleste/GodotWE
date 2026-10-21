@@ -22,4 +22,4 @@ func _entered(player: Player) -> void:
 	player.sounds.play()
 	
 	p.just_thrown = true
-	p.just_thrown_timer.start(PickupComponent.JUST_THROWN_TIME)
+	p.just_thrown_timer.start()

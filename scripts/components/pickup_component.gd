@@ -71,6 +71,7 @@ func _ready() -> void:
 	
 	add_child(just_thrown_timer)
 	just_thrown_timer.one_shot = true
+	just_thrown_timer.wait_time = JUST_THROWN_TIME
 	just_thrown_timer.timeout.connect(func(): just_thrown = false)
 
 
@@ -140,7 +141,7 @@ func _dropped(player: Player, release_type: ReleaseType) -> void:
 	_player = null
 	
 	just_thrown = true
-	just_thrown_timer.start(JUST_THROWN_TIME)
+	just_thrown_timer.start()
 	
 	match release_type:
 		ReleaseType.KICKED:
