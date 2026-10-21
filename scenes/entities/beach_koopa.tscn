@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://cnsky0lpl5fbm" path="res://scripts/level/entities/states/state_machine.gd" id="3_86m4p"]
 [ext_resource type="Script" uid="uid://nhyxn7n2fqbr" path="res://scripts/components/gravity_component.gd" id="3_hsl33"]
 [ext_resource type="Script" uid="uid://sv7f6f65t1eb" path="res://scripts/components/slide_component.gd" id="4_3sglr"]
-[ext_resource type="Script" uid="uid://y1gll4i8423w" path="res://scripts/level/entities/states/beach_koopa_sliding_state.gd" id="4_alnpi"]
+[ext_resource type="Script" uid="uid://y1gll4i8423w" path="res://scripts/level/entities/states/beach_koopa/beach_koopa_sliding_state.gd" id="4_alnpi"]
 [ext_resource type="Script" uid="uid://dv2kb78sowe1m" path="res://scripts/components/stomp_component.gd" id="5_uksdc"]
-[ext_resource type="Script" uid="uid://cywm0qeymyqqn" path="res://scripts/level/entities/states/beach_koopa_stopped_state.gd" id="5_vs73s"]
-[ext_resource type="Script" uid="uid://c201expnknlks" path="res://scripts/level/entities/states/beach_koopa_moving_state.gd" id="6_fosvm"]
-[ext_resource type="Script" uid="uid://qdwpahtiesg4" path="res://scripts/level/entities/states/beach_koopa_jumping_state.gd" id="7_8uol5"]
+[ext_resource type="Script" uid="uid://cywm0qeymyqqn" path="res://scripts/level/entities/states/beach_koopa/beach_koopa_stopped_state.gd" id="5_vs73s"]
+[ext_resource type="Script" uid="uid://c201expnknlks" path="res://scripts/level/entities/states/beach_koopa/beach_koopa_moving_state.gd" id="6_fosvm"]
+[ext_resource type="Script" uid="uid://qdwpahtiesg4" path="res://scripts/level/entities/states/beach_koopa/beach_koopa_jumping_state.gd" id="7_8uol5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(14, 14)
