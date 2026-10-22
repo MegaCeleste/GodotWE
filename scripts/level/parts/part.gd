@@ -159,6 +159,9 @@ func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int
 		return
 	if event.button_index == MouseButton.MOUSE_BUTTON_LEFT and event.pressed:
 		held = true
+	elif event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+		_stop_window_timer()
+		_create_window()
 
 
 func _notification(what: int) -> void:
@@ -305,7 +308,7 @@ func _create_touch_effect() -> void:
 
 func _create_window() -> void:
 	_window = preload("uid://dyw1evq8k8n58").instantiate()
-	_window.target_position = Level.from_grid(_original_pos) + Level.GRID_SIZE / 2
+	_window.target_position = Level.from_grid(_grid_pos) + Level.GRID_SIZE / 2
 	level.editor.get_node(^"%WindowLayer").add_child(_window)
 
 
