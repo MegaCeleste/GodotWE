@@ -7,6 +7,12 @@ signal item_dropped(item: Entity)
 ## Emitted when an item is given to the player.
 signal item_given
 
+## Bump sound.
+const BUMP = preload("uid://7ec5u6l30bgt")
+## Warp/damage sound.
+const WARP = preload("uid://0nbemimuo3b6")
+## Spin thump scene.
+const SPIN_THUMP = preload("uid://clqrm38rakunb")
 ## The maximum horizontal speed when walking.
 const MAX_WALK_SPEED = 78.0
 ## The maximum horizontal speed when running.
@@ -87,11 +93,6 @@ var p_meter := 0
 var direction := 1
 ## Used in processing coyote time.
 var just_fell := false
-## The player's [b]global[/b] position before the [method move_and_slide] call.
-## Used in scenarios where
-## [url=https://github.com/godotengine/godot/issues/38983]Godot's area detection
-## is late[/url].
-var previous_position: Vector2
 ## The tween used to move the held item side to side when moving and turning.
 var held_item_tween: Tween
 ## The [EditorPlayer] that created this [Player].
@@ -114,27 +115,14 @@ func _ready() -> void:
 	if not level.is_node_ready():
 		await level.ready
 	level.hud.player = self
-	
 	# trigger setter
 	starting_powerup = starting_powerup
 	_powerup = starting_powerup
 	_powerup.start()
-	
-	var f = func():
-		var query = PhysicsShapeQueryParameters2D.new()
-		query.collide_with_areas = true
-		query.collide_with_bodies = true
-		query.collision_mask = 1
-		query.shape = WorldBoundaryShape2D.new()
-		query.shape.normal = Vector2.DOWN
-		query.transform.origin = Vector2(0, -14 * Level.GRID_SIZE.y)
-		_can_move_camera_up = not get_world_2d().direct_space_state.intersect_shape(
-				query, 1).is_empty()
-	f.call_deferred()
+	_camera_up_check.call_deferred()
 
 
 func _physics_process(delta: float) -> void:
-	previous_position = global_position
 	_p_timer += delta
 	
 	_powerup.physics_process(delta)
@@ -150,7 +138,7 @@ func _process(delta: float) -> void:
 	_powerup.process(delta)
 	# avoid moving the camera during pauses
 	if level.can_process():
-		var size = get_viewport().get_visible_rect().size / Utility.camera_scale
+		var size = Utility.get_visible_rect().size
 		var center = global_position - (size / 2)
 		var target = Vector2(center.x, Utility.camera_position.y)
 		if _can_move_camera_up or Utility.camera_position.y < center.y:
@@ -163,7 +151,11 @@ func _process(delta: float) -> void:
 				#Vector2(0, -Level.LEVEL_HEIGHT * Level.GRID_SIZE.y),
 				#Vector2(INF, -get_viewport().get_visible_rect().size.y \
 				#/ Utility.camera_scale.y))
-		Utility.camera_position = Utility.camera_position.lerp(target, 6 * delta)
+		if sub_area.autoscroll == Level.Autoscroll.NONE:
+			Utility.camera_position.x = lerpf(Utility.camera_position.x,
+					target.x, 1 - exp(-6 * delta))
+		Utility.camera_position.y = lerpf(Utility.camera_position.y, target.y,
+				1 - exp(-6 * delta))
 
 
 ## Makes the player bounce (e.g. off an enemy).
@@ -183,7 +175,7 @@ func damage() -> void:
 	if _powerup is SmallPowerup:
 		kill(null)
 	else:
-		sounds.stream = preload("uid://0nbemimuo3b6")
+		sounds.stream = WARP
 		sounds.play()
 
 
@@ -261,24 +253,17 @@ func drop_item() -> Entity:
 ## Spawns the spin thump effect at [param position] in global coordinates, at
 ## the player's feet by default.
 func spawn_spin_thump(pos := global_position) -> Particle:
-	var spin_thump = preload("uid://clqrm38rakunb").instantiate()
+	var spin_thump = SPIN_THUMP.instantiate()
 	get_parent().add_sibling(spin_thump)
 	spin_thump.global_position = pos
 	return spin_thump
 
 
-## Used in the state machine to determine whether it can change to another
-## animation.
+## Used in the state machine to check if a certain animation (e.g. the kick
+## animation) is overriding usual animations. You don't have to check for this
+## when playing an animation outside of the state machine.
 func can_change_sprite() -> bool:
 	return not (sprite.animation == &"kick" and sprite.is_playing())
-
-
-func _just_collided(collision: KinematicCollision2D) -> void:
-	var coll = collision.get_collider()
-	if collision.get_normal().y == 1 and \
-			(coll is CollisionObject2D and coll.collision_layer == 1):
-		sounds.stream = preload("uid://7ec5u6l30bgt")
-		sounds.play()
 
 
 func _attempt_correction(delta: float, amount: int) -> void:
@@ -292,3 +277,23 @@ func _attempt_correction(delta: float, amount: int) -> void:
 					if velocity.x * j / 2 < 0:
 						velocity.x = 0
 					return
+
+
+func _camera_up_check() -> void:
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.collision_mask = 1
+	query.shape = WorldBoundaryShape2D.new()
+	query.shape.normal = Vector2.DOWN
+	query.transform.origin = Vector2(0, -14 * Level.GRID_SIZE.y)
+	_can_move_camera_up = not get_world_2d().direct_space_state.intersect_shape(
+			query, 1).is_empty()
+
+
+func _just_collided(collision: KinematicCollision2D) -> void:
+	var coll = collision.get_collider()
+	if collision.get_normal().y == 1 and \
+			(coll is CollisionObject2D and coll.collision_layer == 1):
+		sounds.stream = BUMP
+		sounds.play()
