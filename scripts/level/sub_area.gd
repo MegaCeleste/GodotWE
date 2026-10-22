@@ -84,8 +84,9 @@ func unfreeze() -> void:
 ## set to this sub-area's associated [member level]. Note that this mustn't be
 ## used for [Part]s, as they have their own [member parts] container node.
 func add(node: Node) -> void:
-	if node is Entity:
+	if "level" in node:
 		node.level = level
+	if "sub_area" in node:
 		node.sub_area = self
 	%Foreground.add_child(node)
 
