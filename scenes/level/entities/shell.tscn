@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cwejie0234o6x"]
+
+[ext_resource type="PackedScene" uid="uid://jd8q8byugviw" path="res://scenes/level/entities/grabbable.tscn" id="1_8asf2"]
+[ext_resource type="Script" uid="uid://cg1pw17xp8par" path="res://scripts/level/entities/items/shell.gd" id="2_btacq"]
+[ext_resource type="Script" uid="uid://dv2kb78sowe1m" path="res://scripts/components/stomp_component.gd" id="3_btacq"]
+[ext_resource type="Script" uid="uid://5n5jot1y3oqf" path="res://scripts/components/shell_pickup_component.gd" id="4_en7e7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u75gi"]
+size = Vector2(10, 16)
+
+[node name="Shell" unique_id=1737919929 instance=ExtResource("1_8asf2")]
+script = ExtResource("2_btacq")
+
+[node name="CollShape" parent="." index="0" unique_id=593252066]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_u75gi")
+
+[node name="KillArea" type="Area2D" parent="." index="1" unique_id=771366492]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollShape" type="CollisionShape2D" parent="KillArea" index="0" unique_id=1889656742]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_u75gi")
+
+[node name="GravityComponent" parent="." index="3" unique_id=2087114269]
+bounce = false
+
+[node name="PickupComponent" parent="." index="4" unique_id=1643717470]
+script = ExtResource("4_en7e7")
+check_rect = Rect2(-5, -16, 10, 16)
+
+[node name="StompComponent" type="Node" parent="." index="5" unique_id=2007135340]
+script = ExtResource("3_btacq")
+hitbox = Rect2(-5, -16, 10, 16)
+metadata/_custom_type_script = "uid://dv2kb78sowe1m"
+
+[node name="Sounds" type="AudioStreamPlayer" parent="." index="6" unique_id=1666206750]
+unique_name_in_owner = true
+
+[connection signal="body_entered" from="KillArea" to="." method="_body_entered"]
+[connection signal="dropped" from="PickupComponent" to="." method="_dropped" flags=3]
+[connection signal="entered" from="StompComponent" to="." method="_entered"]
