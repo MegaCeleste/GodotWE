@@ -37,7 +37,6 @@ unique_name_in_owner = true
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Graphics" index="0" unique_id=1405496998]
 unique_name_in_owner = true
-position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_6h7q3")
 animation = &"walk"
 autoplay = "walk"

@@ -79,7 +79,6 @@ unique_name_in_owner = true
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Graphics" index="0" unique_id=1205497913]
 unique_name_in_owner = true
-position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 animation = &"idle"
 

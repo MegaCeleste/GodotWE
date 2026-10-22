@@ -218,15 +218,16 @@ func damage() -> void:
 	if is_queued_for_deletion():
 		return
 	if _powerup is SmallPowerup:
-		kill()
+		kill(null)
 	else:
 		sounds.stream = preload("uid://0nbemimuo3b6")
 		sounds.play()
 
 
 ## Forcibly kills the player, regardless of any powerups.
-func kill() -> void:
+func kill(_killer: Node2D = null) -> Node2D:
 	state_machine.switch(PlayerDeathState)
+	return self
 
 
 ## Sets the player's current [Powerup]. If [param animate] is [code]false[/code],

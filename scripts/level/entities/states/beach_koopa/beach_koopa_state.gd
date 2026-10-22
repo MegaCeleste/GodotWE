@@ -25,4 +25,4 @@ func entered(player: Player) -> void:
 		0.5))
 	player.sounds.stream = preload("uid://dcf1ixvckgpwp")
 	player.sounds.play()
-	koopa.kill()
+	koopa.kill(player)

@@ -25,7 +25,6 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_u75gi")
 
 [node name="GravityComponent" parent="." index="3" unique_id=2087114269]
-gravity = Vector2(0, 13.2)
 bounce = false
 
 [node name="PickupComponent" parent="." index="4" unique_id=1643717470]

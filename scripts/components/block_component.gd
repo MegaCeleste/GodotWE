@@ -31,6 +31,7 @@ signal sprout_end(eject_direction: Vector2, activator: PhysicsBody2D, empty: boo
 
 var _old_z: int
 var _hit_frame: int
+var _hitter: Entity
 
 
 ## Animates the given [param spr] with the starting sprout animation.
@@ -87,6 +88,7 @@ func _just_collided(data: KinematicCollisionExt):
 		animate_sprout_start(sprite).finished.connect(
 				_finish_sprout.bind(data.get_normal(), Vector2.UP, entity))
 		_hit_frame = get_tree().get_frame()
+		_hitter = entity
 
 
 func _collided(data: KinematicCollisionExt) -> void:
@@ -94,10 +96,8 @@ func _collided(data: KinematicCollisionExt) -> void:
 		return
 	if data.get_normal().y != -1:
 		return
-	if data.local.has_method(&"block_hit"):
-		data.local.block_hit()
-	elif data.local.has_method(&"kill"):
-		data.local.kill()
+	if data.local is Entity:
+		data.local.block_hit(get_parent(), _hitter)
 
 
 

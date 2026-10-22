@@ -6,10 +6,6 @@ func _ready() -> void:
 	%Sprite.flip_h = %SlideComponent.direction < 0
 
 
-func kill() -> void:
-	queue_free()
-
-
 func _physics_process(delta: float) -> void:
 	move_and_slide()
 	super(delta)

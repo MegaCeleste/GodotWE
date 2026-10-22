@@ -7,17 +7,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func block_hit() -> void:
+func block_hit(_block: Node2D, _hitter: Entity) -> void:
 	var stomp: StompedGaloomba = preload("uid://x314ug2d52hj").instantiate()
 	stomp.global_position = global_position
 	stomp.level = level
 	stomp.sub_area = sub_area
 	add_sibling.call_deferred(stomp)
 	stomp.velocity.y = -180
-	queue_free()
-
-
-func kill() -> void:
 	queue_free()
 
 

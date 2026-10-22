@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func shake() -> void:
 	if koopa_inside:
-		shake_tween = Utility.shake(%Graphics)
+		shake_tween = Utility.shake(%Sprite)
 
 
 func _respawn_timeout() -> void:
@@ -40,7 +40,7 @@ func _set_moving(v: bool) -> void:
 			(&"idle_inside" if koopa_inside else &"idle"))
 	if shake_tween != null and shake_tween.is_valid():
 		shake_tween.kill()
-	%Graphics.position = Vector2.ZERO
+	%Sprite.position = Vector2.ZERO
 	if v:
 		%ShakeTimer.stop()
 		%RespawnTimer.stop()
@@ -55,5 +55,5 @@ func _set_koopa_inside(v: bool) -> void:
 		%Sprite.play(&"idle_inside" if v else &"idle")
 	if not v and shake_tween != null and shake_tween.is_valid():
 		shake_tween.kill()
-		%Graphics.position = Vector2.ZERO
+		%Sprite.position = Vector2.ZERO
 	koopa_inside = v

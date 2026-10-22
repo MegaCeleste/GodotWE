@@ -32,17 +32,6 @@ func _physics_process(delta: float) -> void:
 	for i in results:
 		var body: CollisionObject2D = i.collider
 		if body.has_method(&"kill") and body is not Player:
-			body.kill()
+			body.kill(self)
 			if %PickupComponent.get_holder() != null:
-				kill()
-
-
-func kill() -> void:
-	var graphics = $Graphics.duplicate() as Node2D
-	graphics.global_position = $Graphics.global_position
-	graphics.name = "Dead" + name
-	graphics.z_index = GameConstants.Layers.Z_DEAD
-	graphics.set_script(DeadEntity)
-	graphics.velocity = Vector2(60 * -sign(Utility.id("player").velocity.x), -240)
-	add_sibling(graphics)
-	queue_free()
+				kill(body)

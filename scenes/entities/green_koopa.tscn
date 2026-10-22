@@ -42,10 +42,11 @@ position = Vector2(-1, -8)
 shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="Graphics" type="Node2D" parent="." unique_id=1838321991]
+position = Vector2(0, -8)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Graphics" unique_id=510875804]
 unique_name_in_owner = true
-position = Vector2(-1, -16)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_yf5fn")
 animation = &"walk"
 autoplay = "walk"

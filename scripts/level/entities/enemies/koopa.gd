@@ -7,20 +7,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func kill() -> void:
-	queue_free()
-
-
-func block_hit() -> void:
+func block_hit(block: Node2D, hitter: Entity) -> void:
 	var shell = preload("uid://u8qe0i0cacce").instantiate()
 	shell.koopa_inside = true
 	shell.global_position = global_position
-	var flip = Utility.id(&"player").global_position.x < global_position.x
-	var direction = -1 if flip else 1
-	shell.velocity.x = 30 * direction
-	shell.velocity.y = -180
-	shell.get_node(^"%Sprite").flip_v = true
 	sub_area.add(shell)
+	shell.block_hit(block, hitter)
+	shell.get_node(^"%Sprite").flip_v = true
 	queue_free()
 
 

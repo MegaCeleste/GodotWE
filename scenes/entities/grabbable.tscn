@@ -17,6 +17,7 @@ position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="Graphics" type="Node2D" parent="." unique_id=275462466]
+position = Vector2(0, -8)
 
 [node name="GravityComponent" type="Node" parent="." unique_id=2087114269]
 unique_name_in_owner = true

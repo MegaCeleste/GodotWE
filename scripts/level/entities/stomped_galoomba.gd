@@ -13,7 +13,7 @@ func _ready() -> void:
 	%ShakeTimer.start(SHAKE_TIME)
 
 
-func block_hit() -> void:
+func block_hit(_block: Node2D, _hitter: Entity) -> void:
 	velocity.y = -60
 
 

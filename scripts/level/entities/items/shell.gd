@@ -51,8 +51,11 @@ func start_moving(player: Player) -> void:
 	moving = true
 
 
-func kill() -> void:
-	pass
+func block_hit(block: Node2D, _hitter: Entity) -> void:
+	var flip = block.global_position.x < global_position.x
+	direction = -1 if flip else 1
+	velocity.x = 30 * direction
+	velocity.y = -180
 
 
 func _entered(player: Player) -> void:
@@ -73,9 +76,9 @@ func _body_entered(body: Node2D) -> void:
 		start_moving(body)
 		
 	elif moving and body is Entity and body.has_method(&"kill"):
-		body.kill()
+		body.kill(self)
 		if body is Shell or %PickupComponent.get_holder() != null:
-			kill()
+			kill(body)
 
 
 func _dropped(player: Player, release_type: PickupComponent.ReleaseType) -> void:
