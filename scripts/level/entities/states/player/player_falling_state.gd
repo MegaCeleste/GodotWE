@@ -18,14 +18,14 @@ func physics_process(delta: float) -> Script:
 	super(delta)
 	
 	var direction = Input.get_axis("player_left", "player_right")
-	var max_speed = player.max_run_speed \
+	var max_speed = Player.MAX_RUN_SPEED \
 			if Input.is_action_pressed("player_run") \
-			else player.max_walk_speed
+			else Player.MAX_WALK_SPEED
 	
 	if _coyote_timer != -1:
 		_coyote_timer += delta
 	
-	if _coyote_timer <= player.coyote_time \
+	if _coyote_timer <= Player.COYOTE_TIME \
 			and Input.is_action_just_pressed("player_jump"):
 		_coyote_timer = 0
 		return PlayerJumpingState
@@ -38,7 +38,7 @@ func physics_process(delta: float) -> Script:
 		player.velocity.x = move_toward(
 				player.velocity.x,
 				max_speed * direction,
-				player.acceleration)
+				Player.ACCEL)
 	
 	
 	if player.is_on_floor():
@@ -49,7 +49,7 @@ func physics_process(delta: float) -> Script:
 	
 	# animations
 	if player.can_change_sprite():
-		if _coyote_timer == -1 or (_coyote_timer > player.coyote_time):
+		if _coyote_timer == -1 or (_coyote_timer > Player.COYOTE_TIME):
 			if player.velocity.y < 0:
 				player.sprite.play("jump")
 			else:

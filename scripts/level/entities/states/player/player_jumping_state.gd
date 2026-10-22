@@ -27,15 +27,15 @@ func start() -> Script:
 	player.sounds.play()
 	
 	# apply jump speed
-	if not running and abs(player.velocity.x) < player.max_walk_speed:
-		player.velocity.y = -player.idle_jump_speed
+	if not running and abs(player.velocity.x) < Player.MAX_WALK_SPEED:
+		player.velocity.y = -Player.IDLE_JUMP_SPEED
 	elif (
-			(not running and abs(player.velocity.x) >= player.max_walk_speed)
-			or (running and abs(player.velocity.x) < player.max_run_speed)
+			(not running and abs(player.velocity.x) >= Player.MAX_WALK_SPEED)
+			or (running and abs(player.velocity.x) < Player.MAX_RUN_SPEED)
 	):
-		player.velocity.y = -player.slow_jump_speed
-	elif running and abs(player.velocity.x) >= player.max_run_speed:
-		player.velocity.y = -player.fast_jump_speed
+		player.velocity.y = -Player.SLOW_JUMP_SPEED
+	elif running and abs(player.velocity.x) >= Player.MAX_RUN_SPEED:
+		player.velocity.y = -Player.FAST_JUMP_SPEED
 	
 	return null
 
@@ -44,20 +44,20 @@ func end() -> void:
 	super()
 	# reset gravity
 	var grav = Utility.find_child_by_class(player, GravityComponent)
-	grav.gravity = Vector2(0, player.gravity)
+	grav.gravity = Vector2(0, Player.GRAVITY)
 
 
 func physics_process(delta: float) -> Script:
 	var direction = Input.get_axis("player_left", "player_right")
-	var max_speed = player.max_run_speed \
+	var max_speed = Player.MAX_RUN_SPEED \
 			if Input.is_action_pressed("player_run") \
-			else player.max_walk_speed
+			else Player.MAX_WALK_SPEED
 	
 	# jump buffer stuff
 	if _jump_buffer != _JumpBufferType.NONE:
 		_jump_buffer_timer += delta
 		# time's up!
-		if _jump_buffer_timer > player.jump_buffer_time:
+		if _jump_buffer_timer > Player.JUMP_BUFFER_TIME:
 			_jump_buffer = _JumpBufferType.NONE
 	if Input.is_action_just_pressed("player_jump"):
 		_jump_buffer = _JumpBufferType.JUMP
@@ -69,7 +69,7 @@ func physics_process(delta: float) -> Script:
 	if (not Input.is_action_pressed("player_jump")
 			and (not Input.is_action_pressed("player_spin_jump")
 			or not _was_holding_item)) \
-			or player.velocity.y >= -player.long_jump_stop_speed:
+			or player.velocity.y >= -Player.LONG_JUMP_STOP_SPEED:
 		_long_jump = false
 	
 	if player.is_on_floor():
@@ -85,9 +85,9 @@ func physics_process(delta: float) -> Script:
 	
 	# change gravity for variable jump height
 	if _long_jump:
-		_grav_comp.gravity = Vector2(0, player.long_jump_gravity)
+		_grav_comp.gravity = Vector2(0, Player.LONG_JUMP_GRAVITY)
 	else:
-		_grav_comp.gravity = Vector2(0, player.gravity)
+		_grav_comp.gravity = Vector2(0, Player.GRAVITY)
 	
 	position_held_item(direction)
 	
@@ -97,7 +97,7 @@ func physics_process(delta: float) -> Script:
 		player.velocity.x = move_toward(
 				player.velocity.x,
 				max_speed * direction,
-				player.acceleration
+				Player.ACCEL
 		)
 	
 	if player.can_change_sprite():

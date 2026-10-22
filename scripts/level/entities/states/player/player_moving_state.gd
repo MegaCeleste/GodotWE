@@ -16,7 +16,7 @@ func physics_process(delta: float) -> Script:
 	
 	var direction := Input.get_axis("player_left", "player_right")
 	var running := Input.is_action_pressed("player_run")
-	var max_speed = player.max_run_speed if running else player.max_walk_speed
+	var max_speed = Player.MAX_RUN_SPEED if running else Player.MAX_WALK_SPEED
 	
 	if not player.is_on_floor():
 		player.just_fell = true
@@ -26,7 +26,7 @@ func physics_process(delta: float) -> Script:
 	
 	if _skidding:
 		player.velocity.x = move_toward(
-				player.velocity.x, 0, player.skid_deceleration)
+				player.velocity.x, 0, Player.SKID_DECEL)
 		if player.velocity.x == 0 or direction == 0:
 			_skidding = false
 			if player.sounds.stream == preload("uid://vxfegf1r2emq"):
@@ -37,10 +37,10 @@ func physics_process(delta: float) -> Script:
 			player.velocity.x = move_toward(
 					player.velocity.x,
 					max_speed * direction,
-					player.acceleration)
+					Player.ACCEL)
 		elif player.is_on_floor():
 			player.velocity.x = move_toward(player.velocity.x, 0,
-					player.deceleration)
+					Player.DECEL)
 	
 	if direction == -sign(player.velocity.x) and not _skidding \
 			and direction != 0:
@@ -93,7 +93,7 @@ func do_p_meter() -> void:
 	if player._p_timer != 0 and (player.velocity.x != 0 or player.p_meter != 0):
 		player._p_timer = 0
 	
-	if abs(player.velocity.x) > player.max_walk_speed or not player.is_on_floor():
+	if abs(player.velocity.x) > Player.MAX_WALK_SPEED or not player.is_on_floor():
 		if player._p_timer > 0.2:
 			player._p_timer = 0
 		if player.p_meter <= 5 and player._p_timer >= 0.133 and player.is_on_floor():
@@ -105,7 +105,7 @@ func do_p_meter() -> void:
 		elif player.p_meter == 7 and player._p_timer >= 0.116:
 			player._p_timer = 0
 	
-	if abs(player.velocity.x) <= player.max_walk_speed and player.is_on_floor():
+	if abs(player.velocity.x) <= Player.MAX_WALK_SPEED and player.is_on_floor():
 		if player.p_meter > 5:
 			player.p_meter = 5
 		if player._p_timer >= 0.4:

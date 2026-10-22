@@ -20,7 +20,7 @@ func start() -> Script:
 		player.held_item.reparent(player.get_parent())
 	
 	player.sprite.speed_scale = 1
-	if player.global_position.y > player.VOID_LEVEL:
+	if player.global_position.y > Player.VOID_LEVEL:
 		player.sprite.hide()
 	else:
 		player.sprite.play("dead", 0)

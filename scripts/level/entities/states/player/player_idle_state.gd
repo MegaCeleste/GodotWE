@@ -11,7 +11,7 @@ func physics_process(delta: float) -> Script:
 		return PlayerFallingState
 	
 	# decelerate
-	player.velocity.x = move_toward(player.velocity.x, 0, player.deceleration)
+	player.velocity.x = move_toward(player.velocity.x, 0, Player.DECEL)
 	
 	# animations
 	if player.can_change_sprite():

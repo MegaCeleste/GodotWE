@@ -32,7 +32,7 @@ func start() -> Script:
 	player.sprite.flip_h = false
 	
 	# apply jump speed
-	player.velocity.y = -player.spin_jump_speed
+	player.velocity.y = -Player.SPIN_JUMP_SPEED
 	
 	return
 
@@ -42,7 +42,7 @@ func end() -> void:
 	
 	# reset gravity
 	var grav = Utility.find_child_by_class(player, GravityComponent)
-	grav.gravity = Vector2(0, player.gravity)
+	grav.gravity = Vector2(0, Player.GRAVITY)
 
 
 func physics_process(delta: float) -> Script:
@@ -50,16 +50,16 @@ func physics_process(delta: float) -> Script:
 	
 	var direction = Input.get_axis("player_left", "player_right")
 	var max_speed = (
-			player.max_run_speed
+			Player.MAX_RUN_SPEED
 			if Input.is_action_pressed("player_run")
-			else player.max_walk_speed
+			else Player.MAX_WALK_SPEED
 	)
 	
 	# jump buffer stuff
 	if _jump_buffer != _JumpBufferType.NONE:
 		_jump_buffer_timer += delta
 		# time's up!
-		if _jump_buffer_timer > player.jump_buffer_time:
+		if _jump_buffer_timer > Player.JUMP_BUFFER_TIME:
 			_jump_buffer = _JumpBufferType.NONE
 	if Input.is_action_just_pressed("player_jump"):
 		_jump_buffer = _JumpBufferType.JUMP
@@ -70,7 +70,7 @@ func physics_process(delta: float) -> Script:
 	
 	if (
 		not Input.is_action_pressed("player_spin_jump")
-		or player.velocity.y >= -player.long_jump_stop_speed
+		or player.velocity.y >= -Player.LONG_JUMP_STOP_SPEED
 	):
 		_long_jump = false
 	
@@ -88,9 +88,9 @@ func physics_process(delta: float) -> Script:
 	
 	# change gravity for variable jump height
 	if _long_jump:
-		_grav_comp.gravity = Vector2(0, player.long_jump_gravity)
+		_grav_comp.gravity = Vector2(0, Player.LONG_JUMP_GRAVITY)
 	else:
-		_grav_comp.gravity = Vector2(0, player.gravity)
+		_grav_comp.gravity = Vector2(0, Player.GRAVITY)
 	
 	# accelerate
 	if direction != 0:
@@ -98,7 +98,7 @@ func physics_process(delta: float) -> Script:
 		player.velocity.x = move_toward(
 				player.velocity.x,
 				max_speed * direction,
-				player.acceleration)
+				Player.ACCEL)
 	
 	if player.can_change_sprite():
 		player.sprite.play("spin_jump")

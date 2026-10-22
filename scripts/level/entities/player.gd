@@ -7,6 +7,64 @@ signal item_dropped(item: Entity)
 ## Emitted when an item is given to the player.
 signal item_given
 
+## The maximum horizontal speed when walking.
+const MAX_WALK_SPEED = 78.0
+## The maximum horizontal speed when running.
+const MAX_RUN_SPEED = 180.0
+## The maximum vertical speed when falling.
+const MAX_FALL_SPEED = 258.0
+## The usual horizontal acceleration speed.
+const ACCEL = 3.6
+## Acceleration speed used when the player is on a slippery surface.
+const ICE_ACCEL = 0.36
+## The usual horizontal deceleration speed.
+const DECEL = 3.0
+## Deceleration speed used when the player is on a slippery surface.
+const ICE_DECEL = 0.3
+## Deceleration speed used when the player is skidding. The player does not
+## accelerate using this value.
+const SKID_DECEL = 7.8
+## Jump speed used when the horizontal speed is equal to or above [constant
+## Player.MAX_RUN_SPEED].
+const FAST_JUMP_SPEED = 258.0
+## Jump speed used when the horizontal speed is equal to or above [constant
+## Player.MAX_WALK_SPEED] when walking, below [constant Player.MAX_RUN_SPEED]
+## when running.
+const SLOW_JUMP_SPEED = 243.0
+## Jump speed used when the horizontal speed is below [constant
+## Player.MAX_WALK_SPEED].
+const IDLE_JUMP_SPEED = 237.0
+## The vertical speed at which the player will start applying [constant
+## Player.GRAVITY] instead of [constant Player.LONG_JUMP_GRAVITY]. Includes spin
+## jumps.
+const LONG_JUMP_STOP_SPEED = 60.0
+## The regular spin jump speed.
+const SPIN_JUMP_SPEED = 198.0
+## The spin jump speed used when the level has low gravity.
+const NIGHT_SPIN_JUMP_SPEED = 138.0
+## The bounce speed used when [method bounce] is called.
+const BOUNCE_SPEED = 253.5
+## The default gravity.
+const GRAVITY = 18.0
+## The gravity used for variable jump height.
+const LONG_JUMP_GRAVITY = 6.0
+## The amount of body corner overlap to push the player to the side. Only
+## applied on the Y axis.
+const CORNER_CORRECTION = 2
+## The maximum amount of time the player will allow when it has jumped
+## too [i]early[/i].
+const JUMP_BUFFER_TIME = 0.03333333333333333
+## The maximum amount of time the player will allow when it has jumped too
+## [i]late[/i].
+const COYOTE_TIME = 0.06666666666666667
+## The hitbox size used when the player is on a small powerup.
+const SMALL_HITBOX_SIZE = Rect2(Vector2(0, -7.5), Vector2(12, 15))
+## The hitbox size used when the player is on a big powerup.
+const BIG_HITBOX_SIZE = Rect2(Vector2(0, -13.5), Vector2(12, 27))
+const HELD_ITEM_OFFSET = Vector2(11, -1.5)
+## The y height at which the player will be killed.
+const VOID_LEVEL = 64
+
 ## The player's sprite.
 @onready var sprite: AnimatedSprite2D = %Sprite
 ## The player's sound player.
@@ -19,92 +77,6 @@ signal item_given
 	set(v):
 		v.player = self
 		starting_powerup = v
-
-#region Physics values
-
-@export_group("Maximum Speed")
-## The maximum horizontal speed when walking.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var max_walk_speed := 78.0
-## The maximum horizontal speed when running.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var max_run_speed := 180.0
-## The maximum vertical speed when falling.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var max_fall_speed := 258.0
-
-@export_group("Acceleration")
-## The usual horizontal acceleration speed.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var acceleration := 3.6
-## Acceleration speed used when the player is on a slippery surface.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var ice_acceleration := 0.36
-
-@export_group("Deceleration")
-## The usual horizontal deceleration speed.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var deceleration := 3.0
-## Deceleration speed used when the player is on a slippery surface.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var ice_deceleration := 0.3
-## Deceleration speed used when the player is skidding. The player does not
-## accelerate using this value.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var skid_deceleration := 7.8
-
-@export_group("Jump Speed")
-## Jump speed used when the horizontal speed is equal to or above
-## [member Player.max_run_speed].
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var fast_jump_speed := 258.0
-## Jump speed used when the horizontal speed is equal to or above
-## [member Player.max_walk_speed] when walking, below
-## [member Player.max_run_speed] when running.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var slow_jump_speed := 243.0
-## Jump speed used when the horizontal speed is below
-## [member Player.max_walk_speed].
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var idle_jump_speed := 237.0
-## The vertical speed at which the player will start applying
-## [member Player.gravity] instead of [member Player.long_jump_gravity].
-## Includes spin jumps.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var long_jump_stop_speed := 60.0
-## The regular spin jump speed.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var spin_jump_speed := 198.0
-## The spin jump speed used when the level has low gravity.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var night_spin_jump_speed := 138.0
-## The bounce speed used when an enemy is stomped.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s")
-var stomp_bounce_speed := 253.5
-
-@export_group("Gravity")
-## The default gravity.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var gravity := 18.0
-## The gravity used for variable jump height.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px/s²")
-var long_jump_gravity := 6.0
-
-@export_group("Enhancements")
-## The amount of body corner overlap to push the player to the side. Only
-## applied on the Y axis.
-@export_custom(PROPERTY_HINT_NONE, "suffix:px")
-var corner_correction := 3
-## The maximum amount of time the player will allow when it has jumped
-## too [i]early[/i].
-@export_custom(PROPERTY_HINT_NONE, "suffix:s")
-var jump_buffer_time := 2.0/60
-## The maximum amount of time the player will allow when it has jumped too
-## [i]late[/i].
-@export_custom(PROPERTY_HINT_NONE, "suffix:s")
-var coyote_time := 4.0/60
-
-#endregion
 
 ## The player's collected coin count.
 var coins := 0
@@ -131,15 +103,6 @@ var held_item: Entity = null:
 var _p_timer := 0.0
 var _can_move_camera_up := false
 var _held_z := 0
-
-
-## The hitbox size used when the player is on a small powerup.
-const SMALL_HITBOX_SIZE = Rect2(Vector2(0, -7.5), Vector2(12, 15))
-## The hitbox size used when the player is on a big powerup.
-const BIG_HITBOX_SIZE = Rect2(Vector2(0, -13.5), Vector2(12, 27))
-const HELD_ITEM_OFFSET = Vector2(11, -1.5)
-## The y height at which the player will be killed.
-const VOID_LEVEL = 64
 
 
 func _notification(what: int) -> void:
@@ -175,7 +138,7 @@ func _physics_process(delta: float) -> void:
 	_p_timer += delta
 	
 	_powerup.physics_process(delta)
-	_attempt_correction(delta, 2)
+	_attempt_correction(delta, CORNER_CORRECTION)
 	move_and_slide()
 	super(delta)
 	
@@ -210,7 +173,7 @@ func bounce() -> void:
 	else:
 		state_machine.switch(PlayerJumpingState)
 	sounds.stop()
-	velocity.y = -stomp_bounce_speed
+	velocity.y = -BOUNCE_SPEED
 
 
 ## Downgrades the player into a lower-tier powerup.
