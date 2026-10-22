@@ -59,6 +59,7 @@ func build() -> void:
 	player.position = position + Vector2(8, 16)
 	player.editor_player = self
 	sub_area.add(player)
+	level.player = player
 
 
 func erase(_silent := false) -> void:

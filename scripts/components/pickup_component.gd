@@ -91,7 +91,7 @@ func _physics_process(_delta: float) -> void:
 	if not Input.is_action_pressed(&"player_run"):
 		return
 	# TODO: consider making a player reference like Level.player
-	var player: Player = Utility.id(&"player")
+	var player: Player = get_parent().level.player
 	var rect = get_check_rect(player.direction)
 	rect.position = get_parent().to_global(rect.position)
 	var query = PhysicsShapeQueryParameters2D.new()

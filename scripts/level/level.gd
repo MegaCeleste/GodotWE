@@ -174,6 +174,8 @@ const LEVEL_HEIGHT = 27
 var sub_areas: Array[SubArea] = []
 ## The [HUD] associated with this level. Hidden while editing.
 var hud: HUD
+## The player residing in this level.
+var player: Player
 
 
 static func to_grid(pos: Vector2) -> Vector2i:
