@@ -79,6 +79,7 @@
 [ext_resource type="Texture2D" uid="uid://cms86rxvrtuwc" path="res://textures/ui/editor/left_panel/theme_cards/long/button.png" id="61_qftpi"]
 [ext_resource type="Texture2D" uid="uid://dtfyn2put0kv1" path="res://textures/ui/editor/left_panel/theme_cards/long/button_pressed.png" id="62_1d5na"]
 [ext_resource type="Script" uid="uid://dcag88dwr80fi" path="res://scripts/ui/editor/left_panel/level_theme_popout_btn.gd" id="63_ngcb4"]
+[ext_resource type="Script" uid="uid://q4i057wx1wap" path="res://scripts/ui/editor/left_panel/night_mode_btn.gd" id="64_1d5na"]
 [ext_resource type="Script" uid="uid://ctb6g03wyrir4" path="res://scripts/ui/editor/left_panel/clear_condition_btn.gd" id="65_1jh8r"]
 [ext_resource type="Script" uid="uid://df0nh8v5luy05" path="res://scripts/ui/editor/left_panel/time_guy.gd" id="66_p1dnx"]
 [ext_resource type="Texture2D" uid="uid://d2wbhd87lk68a" path="res://textures/ui/editor/left_panel/time/arrow.svg" id="67_6x5dd"]
@@ -1278,6 +1279,101 @@ texture_hover = ExtResource("62_1d5na")
 ignore_texture_size = true
 script = ExtResource("63_ngcb4")
 level_theme = 12
+
+[node name="NightModeBtn" type="BaseButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1046062731]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+oversampling_with_scale = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 375.0
+offset_top = 120.0
+offset_right = 438.0
+offset_bottom = 186.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+pivot_offset_ratio = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
+localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+focus_behavior_recursive = 0
+mouse_filter = 0
+mouse_behavior_recursive = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 0
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("64_1d5na")
+metadata/_custom_type_script = "uid://q4i057wx1wap"
 
 [node name="LiquidLevelBtn" type="TextureButton" parent="Editor/LeftPanel" unique_id=392959033]
 layout_mode = 0
