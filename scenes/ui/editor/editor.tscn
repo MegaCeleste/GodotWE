@@ -69,12 +69,16 @@
 [ext_resource type="Texture2D" uid="uid://cesvt7pbr2ff6" path="res://textures/ui/editor/left_panel/btn_meteorites_none.svg" id="55_1jh8r"]
 [ext_resource type="Script" uid="uid://ce4b00vmkvhqb" path="res://scripts/ui/editor/left_panel/autoscroll_btn.gd" id="55_mahnq"]
 [ext_resource type="Texture2D" uid="uid://c2rs61fytlafw" path="res://textures/ui/editor/left_panel/btn_time.svg" id="56_osne0"]
+[ext_resource type="Script" uid="uid://moedngpghjsv" path="res://scripts/ui/editor/left_panel/game_style_popout_btn.gd" id="57_esjps"]
 [ext_resource type="Texture2D" uid="uid://4g3pjmw1f8k5" path="res://textures/ui/editor/left_panel/btn_time_pressed.svg" id="57_vwxkl"]
 [ext_resource type="Texture2D" uid="uid://ddebqulm6yj7h" path="res://textures/ui/editor/left_panel/btn_clear_condition.svg" id="58_c42vp"]
 [ext_resource type="Script" uid="uid://4kopicuy5th0" path="res://scripts/ui/editor/left_panel/time_btn.gd" id="58_jogh0"]
 [ext_resource type="Script" uid="uid://c6q47qnusnble" path="res://scripts/ui/editor/left_panel/binary_btn.gd" id="58_wy0ar"]
 [ext_resource type="Texture2D" uid="uid://b7r2g38vp8jga" path="res://textures/ui/editor/left_panel/btn_clear_condition_pressed.svg" id="59_p1dnx"]
 [ext_resource type="AudioStream" uid="uid://d3lha2xpakko2" path="res://audio/ui/common/hover04.wav" id="59_rqkgo"]
+[ext_resource type="Texture2D" uid="uid://cms86rxvrtuwc" path="res://textures/ui/editor/left_panel/theme_cards/long/button.png" id="61_qftpi"]
+[ext_resource type="Texture2D" uid="uid://dtfyn2put0kv1" path="res://textures/ui/editor/left_panel/theme_cards/long/button_pressed.png" id="62_1d5na"]
+[ext_resource type="Script" uid="uid://dcag88dwr80fi" path="res://scripts/ui/editor/left_panel/level_theme_popout_btn.gd" id="63_ngcb4"]
 [ext_resource type="Script" uid="uid://ctb6g03wyrir4" path="res://scripts/ui/editor/left_panel/clear_condition_btn.gd" id="65_1jh8r"]
 [ext_resource type="Script" uid="uid://df0nh8v5luy05" path="res://scripts/ui/editor/left_panel/time_guy.gd" id="66_p1dnx"]
 [ext_resource type="Texture2D" uid="uid://d2wbhd87lk68a" path="res://textures/ui/editor/left_panel/time/arrow.svg" id="67_6x5dd"]
@@ -92,7 +96,7 @@ texture_margin_bottom = 24.0
 shader = ExtResource("2_wxv2j")
 shader_parameter/color = Color(0.07058824, 0.83137256, 0.92941177, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_esjps"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nac0j"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -105,7 +109,7 @@ texture_margin_right = 33.0
 texture_margin_bottom = 39.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ye28s"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_epbrf"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -118,7 +122,7 @@ texture_margin_right = 33.0
 texture_margin_bottom = 39.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ovdi"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2bo8b"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -131,7 +135,7 @@ texture_margin_right = 33.0
 texture_margin_bottom = 39.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qftpi"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uq1pj"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -366,31 +370,31 @@ theme_override_constants/separation = 18
 
 [node name="Terrain" parent="Editor/PaletteMenu/Tabs" unique_id=828071019 instance=ExtResource("2_fep4b")]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_esjps")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_esjps")
-theme_override_styles/hover = SubResource("StyleBoxTexture_esjps")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nac0j")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nac0j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nac0j")
 button_pressed = true
 category = ExtResource("4_crwvd")
 
 [node name="Items" parent="Editor/PaletteMenu/Tabs" unique_id=183601785 instance=ExtResource("2_fep4b")]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_ye28s")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_ye28s")
-theme_override_styles/hover = SubResource("StyleBoxTexture_ye28s")
+theme_override_styles/normal = SubResource("StyleBoxTexture_epbrf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_epbrf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_epbrf")
 category = ExtResource("5_fhqrb")
 
 [node name="Enemies" parent="Editor/PaletteMenu/Tabs" unique_id=1842016254 instance=ExtResource("2_fep4b")]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_0ovdi")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_0ovdi")
-theme_override_styles/hover = SubResource("StyleBoxTexture_0ovdi")
+theme_override_styles/normal = SubResource("StyleBoxTexture_2bo8b")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2bo8b")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2bo8b")
 category = ExtResource("6_d4hij")
 
 [node name="Gizmos" parent="Editor/PaletteMenu/Tabs" unique_id=633540572 instance=ExtResource("2_fep4b")]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_qftpi")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_qftpi")
-theme_override_styles/hover = SubResource("StyleBoxTexture_qftpi")
+theme_override_styles/normal = SubResource("StyleBoxTexture_uq1pj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_uq1pj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uq1pj")
 category = ExtResource("7_4qrp7")
 
 [node name="CloseBtn" type="TextureButton" parent="Editor/PaletteMenu" unique_id=1133375105]
@@ -1000,6 +1004,71 @@ side = 1
 title = &"EDITOR_POPOUT_GAME_STYLE"
 panel_handle = NodePath("../PanelHandle")
 
+[node name="SmbBtn" type="TextureButton" parent="Editor/LeftPanel/GameStylePanel" unique_id=541651257]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 87.0
+offset_right = 171.0
+offset_bottom = 150.0
+action_mode = 0
+texture_normal = ExtResource("22_crwvd")
+texture_pressed = ExtResource("23_fhqrb")
+texture_hover = ExtResource("23_fhqrb")
+ignore_texture_size = true
+script = ExtResource("57_esjps")
+
+[node name="Smb3Btn" type="TextureButton" parent="Editor/LeftPanel/GameStylePanel" unique_id=1729387609]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 87.0
+offset_right = 315.0
+offset_bottom = 150.0
+action_mode = 0
+texture_normal = ExtResource("22_crwvd")
+texture_pressed = ExtResource("23_fhqrb")
+texture_hover = ExtResource("23_fhqrb")
+ignore_texture_size = true
+script = ExtResource("57_esjps")
+game_style = 1
+
+[node name="SmwBtn" type="TextureButton" parent="Editor/LeftPanel/GameStylePanel" unique_id=1495128924]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 168.0
+offset_right = 171.0
+offset_bottom = 231.0
+action_mode = 0
+texture_normal = ExtResource("22_crwvd")
+texture_pressed = ExtResource("23_fhqrb")
+texture_hover = ExtResource("23_fhqrb")
+ignore_texture_size = true
+script = ExtResource("57_esjps")
+game_style = 2
+
+[node name="NsmbuBtn" type="TextureButton" parent="Editor/LeftPanel/GameStylePanel" unique_id=400998099]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 168.0
+offset_right = 315.0
+offset_bottom = 231.0
+action_mode = 0
+texture_normal = ExtResource("22_crwvd")
+texture_pressed = ExtResource("23_fhqrb")
+texture_hover = ExtResource("23_fhqrb")
+ignore_texture_size = true
+script = ExtResource("57_esjps")
+game_style = 3
+
+[node name="Bar" type="ColorRect" parent="Editor/LeftPanel/GameStylePanel" unique_id=1186346823]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = 273.0
+offset_right = 354.0
+offset_bottom = 300.0
+grow_horizontal = 2
+color = Color(0.5647059, 0.4862745, 0.48235294, 1)
+
 [node name="LevelThemeBtn" type="TextureButton" parent="Editor/LeftPanel" unique_id=27242946 node_paths=PackedStringArray("popout")]
 layout_mode = 0
 offset_left = 18.0
@@ -1018,7 +1087,6 @@ hover_sound = ExtResource("59_rqkgo")
 
 [node name="LevelThemePanel" type="Control" parent="Editor/LeftPanel" unique_id=1170354568 node_paths=PackedStringArray("panel_handle")]
 unique_name_in_owner = true
-visible = false
 clip_contents = true
 anchors_preset = 0
 offset_left = 159.0
@@ -1029,6 +1097,187 @@ script = ExtResource("14_sp7ve")
 side = 1
 title = &"EDITOR_POPOUT_LEVEL_THEME"
 panel_handle = NodePath("../PanelHandle")
+
+[node name="OverworldBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=406921768]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 66.0
+offset_right = 183.0
+offset_bottom = 129.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+
+[node name="UndergroundBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=333964010]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 138.0
+offset_right = 183.0
+offset_bottom = 201.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 1
+
+[node name="UnderwaterBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=114159497]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 210.0
+offset_right = 183.0
+offset_bottom = 273.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 2
+
+[node name="DesertBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1590162956]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 282.0
+offset_right = 183.0
+offset_bottom = 345.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 6
+
+[node name="SnowBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=92527111]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 354.0
+offset_right = 183.0
+offset_bottom = 417.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 7
+
+[node name="SkyBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1795958572]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 66.0
+offset_right = 330.0
+offset_bottom = 129.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 4
+
+[node name="ForestBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1992773878]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 138.0
+offset_right = 330.0
+offset_bottom = 201.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 9
+
+[node name="MansionBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1587660086]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 210.0
+offset_right = 330.0
+offset_bottom = 273.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 8
+
+[node name="AirshipBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=669839623]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 282.0
+offset_right = 330.0
+offset_bottom = 345.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 5
+
+[node name="CastleBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=483985059]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 354.0
+offset_right = 330.0
+offset_bottom = 417.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 3
+
+[node name="FallBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=1314795507]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 210.0
+offset_right = 468.0
+offset_bottom = 273.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 10
+
+[node name="BeachBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=2139281449]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 282.0
+offset_right = 468.0
+offset_bottom = 345.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 11
+
+[node name="MountainBtn" type="TextureButton" parent="Editor/LeftPanel/LevelThemePanel" unique_id=530164581]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 354.0
+offset_right = 468.0
+offset_bottom = 417.0
+action_mode = 0
+texture_normal = ExtResource("61_qftpi")
+texture_pressed = ExtResource("62_1d5na")
+texture_hover = ExtResource("62_1d5na")
+ignore_texture_size = true
+script = ExtResource("63_ngcb4")
+level_theme = 12
 
 [node name="LiquidLevelBtn" type="TextureButton" parent="Editor/LeftPanel" unique_id=392959033]
 layout_mode = 0
