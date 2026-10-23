@@ -36,12 +36,6 @@ var username: String:
 		ProjectSettings.set_setting("game/user/username", v)
 
 
-func _ready() -> void:
-	# Opt physics movers and the level camera in explicitly. UI and editor
-	# gestures continue to update on render frames.
-	get_tree().root.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-
-
 ## Finds a child in the node [param parent] of [param type] type. This function
 ## only looks at direct children, not descendants.
 func find_child_by_class(parent: Node, type: Variant) -> Node:
@@ -152,9 +146,6 @@ func _set_camera_position_raw(v: Vector2) -> void:
 	var camera := get_viewport().get_camera_2d()
 	if camera != null:
 		camera.global_position = v / camera.zoom
-		if not Engine.is_in_physics_frame():
-			camera.reset_physics_interpolation()
-			camera.force_update_scroll()
 		return
 	get_viewport().canvas_transform.origin = -v
 

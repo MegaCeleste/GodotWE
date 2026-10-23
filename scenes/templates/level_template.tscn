@@ -55,13 +55,12 @@ disabled = true
 shape = SubResource("WorldBoundaryShape2D_mfms0")
 disabled = true
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1977254178]
 unique_name_in_owner = true
-process_physics_priority = 2
 anchor_mode = 0
 zoom = Vector2(3, 3)
-limit_enabled = false
 process_callback = 0
+limit_enabled = false
 
 [node name="LevelTimer" type="Timer" parent="." unique_id=266074371]
 unique_name_in_owner = true

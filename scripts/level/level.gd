@@ -197,8 +197,6 @@ func _init(_level_name := "", _author := "", _game_style := GameStyle.SMW):
 
 
 func _ready() -> void:
-	# Actors update first (priority 0), then bounds, then Camera2D (priority 2).
-	process_physics_priority = 1
 	hud = load(GameConstants.HUDS[game_style]).instantiate()
 	hud.level = self
 	add_child(hud)
@@ -229,7 +227,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if status == Status.PLAYING:
-		_camera_clamp()
+		_camera_clamp.call_deferred()
 
 
 func create_editor() -> void:
@@ -284,6 +282,7 @@ func _timeout() -> void:
 
 func _play() -> void:
 	status = Status.PLAYING
+	%Camera.process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 	%Camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
 	%Camera.reset_physics_interpolation()
 	%LevelTimer.start(time + 1)
@@ -317,6 +316,7 @@ func _play() -> void:
 
 func _edit() -> void:
 	status = Status.EDITING
+	%Camera.process_callback = Camera2D.CAMERA2D_PROCESS_IDLE
 	%Camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	%Camera.reset_physics_interpolation()
 	process_mode = Node.PROCESS_MODE_INHERIT

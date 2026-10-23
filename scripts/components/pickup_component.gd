@@ -135,15 +135,11 @@ func _body_entered(body: Node2D) -> void:
 
 func _picked_up(player: Player) -> void:
 	_player = player
-	# Inherit the player's displayed movement, but keep the hand tween current.
-	get_parent().physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-	get_parent().reset_physics_interpolation()
+	get_parent().reset_physics_interpolation.call_deferred()
 
 
 func _dropped(player: Player, release_type: ReleaseType) -> void:
 	_player = null
-	get_parent().physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
-	get_parent().reset_physics_interpolation()
 	
 	just_thrown = true
 	just_thrown_timer.start()

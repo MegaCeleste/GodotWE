@@ -16,16 +16,7 @@ var last_collided: Array[Node2D] = []
 
 
 func _enter_tree() -> void:
-	if physics_interpolation_mode == Node.PHYSICS_INTERPOLATION_MODE_INHERIT:
-		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
-	# Frames and poses stay current while the body's translation is interpolated.
-	var graphics := get_node_or_null("Graphics")
-	if (
-		graphics != null
-		and graphics.physics_interpolation_mode == Node.PHYSICS_INTERPOLATION_MODE_INHERIT
-	):
-		graphics.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-	# Factories and reparenting can set the final position after entering the tree.
+	# don't interpolate on first frame to prevent visible jumps from (0, 0)
 	reset_physics_interpolation.call_deferred()
 
 
