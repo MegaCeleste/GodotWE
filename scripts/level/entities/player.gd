@@ -133,9 +133,8 @@ func _physics_process(delta: float) -> void:
 	if global_position.y >= VOID_LEVEL:
 		state_machine.switch(PlayerDeathState)
 
-
-func _process(delta: float) -> void:
-	_powerup.process(delta)
+	# Follow the completed body step. A render-time camera update would move
+	# the player backwards on frames between physics ticks.
 	# avoid moving the camera during pauses
 	if level.can_process():
 		var size = Utility.get_visible_rect().size
@@ -156,6 +155,10 @@ func _process(delta: float) -> void:
 					target.x, 1 - exp(-6 * delta))
 		Utility.camera_position.y = lerpf(Utility.camera_position.y, target.y,
 				1 - exp(-6 * delta))
+
+
+func _process(delta: float) -> void:
+	_powerup.process(delta)
 
 
 ## Makes the player bounce (e.g. off an enemy).
