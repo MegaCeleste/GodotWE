@@ -9,21 +9,34 @@ const COLOR_YELLOW = Color("#facd00")
 ## When designing textures, it's best to use this for consistency.
 const COLOR_DARK = Color("#5d1c1c")
 
-## The position of the top-left corner of the visible view, in screen pixel
-## units (i.e. independent of [member camera_scale]). In most scenarios you
-## should prefer [member camera_position]. This is a convenience setter/getter
-## for [member Viewport.canvas_transform].
+## The position of the top-left corner of the visible view in [b]window
+## coordinates[/b] (i.e. independent of [member camera_scale]). If a camera is
+## available (see [method Viewport.get_camera_2d]), this sets the camera's
+## position; otherwise it directly modifies [member
+## Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_position_raw: Vector2:
 	get = _get_camera_position_raw,
 	set = _set_camera_position_raw
-## The position of the top-left corner of the visible view in viewport
-## coordinates. This is a convenience setter/getter for [member
+## The position of the top-left corner of the visible view in [b]viewport
+## coordinates[/b] (i.e. affected by [member camera_scale]). If a camera is
+## available (see [method Viewport.get_camera_2d]), this sets the camera's
+## position; otherwise it directly modifies [member
 ## Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_position: Vector2:
 	get = _get_camera_position,
 	set = _set_camera_position
-## The scale of the viewport's canvas transform. This is a convenience
-## setter/getter for [member Viewport.canvas_transform].
+## The visible view's zoom. If a camera is available (see [method
+## Viewport.get_camera_2d]), this sets the camera's zoom; otherwise it directly
+## modifies [member Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_scale: Vector2:
 	get = _get_camera_scale,
 	set = _set_camera_scale
@@ -98,8 +111,11 @@ func rangef(...args: Array) -> Rangef:
 	return iter
 
 
-## Returns [method Viewport.get_visible_rect] in [Viewport] coordinates.
+## Returns the currently visible area as a rectangle in viewport coordinates.
 func get_visible_rect() -> Rect2:
+	var cam = get_viewport().get_camera_2d()
+	if cam != null:
+		cam.force_update_scroll()
 	return (
 			get_viewport().canvas_transform.affine_inverse()
 			* get_viewport().get_visible_rect())
@@ -136,28 +152,42 @@ func shake(node: Node2D) -> Tween:
 
 
 func _get_camera_position_raw() -> Vector2:
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		return camera.global_position * camera.zoom
 	return -get_viewport().canvas_transform.origin
 
 
 func _set_camera_position_raw(v: Vector2) -> void:
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		camera.global_position = v / camera.zoom
+		return
 	get_viewport().canvas_transform.origin = -v
 
 
 func _get_camera_position() -> Vector2:
-	return -get_viewport().canvas_transform.origin \
-			/ get_viewport().canvas_transform.get_scale()
+	return camera_position_raw / camera_scale
 
 
 func _set_camera_position(v: Vector2) -> void:
-	get_viewport().canvas_transform.origin = -v \
-			* get_viewport().canvas_transform.get_scale()
+	camera_position_raw = v * camera_scale
 
 
 func _get_camera_scale() -> Vector2:
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		return camera.zoom
 	return get_viewport().canvas_transform.get_scale()
 
 
 func _set_camera_scale(v: Vector2) -> void:
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		camera.zoom = v
+		camera.reset_physics_interpolation()
+		camera.force_update_scroll()
+		return
 	get_viewport().canvas_transform.x = get_viewport().canvas_transform \
 			.x.normalized() * v.x
 	get_viewport().canvas_transform.y = get_viewport().canvas_transform \
