@@ -9,6 +9,10 @@ extends Node2D
 @export var follow_scale := Vector2(1, 1)
 
 
+func _init() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
 func _process(_delta: float) -> void:
 	queue_redraw()
 
@@ -19,7 +23,7 @@ func _draw() -> void:
 
 	var mult = Vector2(1, 1) - follow_scale
 	var rect = Utility.get_visible_rect()
-	draw_set_transform(mult * Utility.camera_position)
+	draw_set_transform(mult * rect.position)
 	rect.position *= follow_scale
 
 	var size = texture.get_size()

@@ -12,7 +12,7 @@ func _init() -> void:
 func start() -> Script:
 	player = node as Player
 	player.process_mode = Node.PROCESS_MODE_ALWAYS
-	player.level.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+	player.level.process_mode = Node.PROCESS_MODE_DISABLED
 	player.collision_mask = 0
 	player.collision_layer = 0
 	player.velocity = Vector2.ZERO

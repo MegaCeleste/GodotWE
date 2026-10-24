@@ -113,6 +113,9 @@ func rangef(...args: Array) -> Rangef:
 
 ## Returns the currently visible area as a rectangle in viewport coordinates.
 func get_visible_rect() -> Rect2:
+	var cam = get_viewport().get_camera_2d()
+	if cam != null:
+		cam.force_update_scroll()
 	return (
 			get_viewport().canvas_transform.affine_inverse()
 			* get_viewport().get_visible_rect())

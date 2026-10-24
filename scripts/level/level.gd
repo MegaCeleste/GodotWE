@@ -282,7 +282,6 @@ func _timeout() -> void:
 
 func _play() -> void:
 	status = Status.PLAYING
-	%Camera.process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 	%Camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
 	%Camera.reset_physics_interpolation()
 	%LevelTimer.start(time + 1)
@@ -317,7 +316,6 @@ func _play() -> void:
 func _edit() -> void:
 	status = Status.EDITING
 	%Camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-	%Camera.process_callback = Camera2D.CAMERA2D_PROCESS_IDLE
 	%Camera.reset_physics_interpolation()
 	process_mode = Node.PROCESS_MODE_INHERIT
 	%LevelTimer.stop()
