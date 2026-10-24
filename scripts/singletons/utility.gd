@@ -9,20 +9,34 @@ const COLOR_YELLOW = Color("#facd00")
 ## When designing textures, it's best to use this for consistency.
 const COLOR_DARK = Color("#5d1c1c")
 
-## The position of the top-left corner of the visible view, in screen pixel
-## units (i.e. independent of [member camera_scale]). Prefer [member
-## camera_position]. With a [Camera2D], this is its latest physical position,
-## not the interpolated view; otherwise it wraps [member Viewport.canvas_transform].
+## The position of the top-left corner of the visible view in [b]window
+## coordinates[/b] (i.e. independent of [member camera_scale]). If a camera is
+## available (see [method Viewport.get_camera_2d]), this sets the camera's
+## position; otherwise it directly modifies [member
+## Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_position_raw: Vector2:
 	get = _get_camera_position_raw,
 	set = _set_camera_position_raw
-## The physical top-left camera position in world coordinates. Controllers
-## read this value so displayed interpolation cannot feed back into physics.
-## Use [method get_visible_rect] for the actual displayed view.
+## The position of the top-left corner of the visible view in [b]viewport
+## coordinates[/b] (i.e. affected by [member camera_scale]). If a camera is
+## available (see [method Viewport.get_camera_2d]), this sets the camera's
+## position; otherwise it directly modifies [member
+## Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_position: Vector2:
 	get = _get_camera_position,
 	set = _set_camera_position
-## Camera zoom, or the viewport canvas scale when no [Camera2D] is active.
+## The visible view's zoom. If a camera is available (see [method
+## Viewport.get_camera_2d]), this sets the camera's zoom; otherwise it directly
+## modifies [member Viewport.canvas_transform].
+## [br][br]
+## [b]Note:[/b] This value is not interpolated, use [method get_visible_rect] to
+## obtain the current interpolated visible area.
 var camera_scale: Vector2:
 	get = _get_camera_scale,
 	set = _set_camera_scale
@@ -97,8 +111,7 @@ func rangef(...args: Array) -> Rangef:
 	return iter
 
 
-## Returns the displayed visible rectangle in world coordinates, including
-## the active camera's interpolation.
+## Returns the currently visible area as a rectangle in viewport coordinates.
 func get_visible_rect() -> Rect2:
 	return (
 			get_viewport().canvas_transform.affine_inverse()
